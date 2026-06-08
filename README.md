@@ -43,23 +43,23 @@ This project supports Malaysia’s tourism development by promoting local attrac
 
 ---
 
-## Objectives
+## 2.0 Objectives
 
-## Target Users
+## 3.0 Target Users
   The primary users of QuestMy are local and international travelers who enjoy exploring new places and experiencing different cultures. These users frequently use mobile applications to plan, manage their trips, and are interested in discovering unique attractions, receiving personalized travel recommendations, and accessing real-time travel assistance during their journeys. In addition, they enjoy interactive experiences such as challenges, rewards, and gamified activities that make travelling more engaging and enjoyable. QuestMy helps these users by providing trip planning tools, community-based recommendations, cultural activities, and travel support in a single platform. 
   The secondary users of QuestMy are local community members who want to share their knowledge and experiences with travelers. These users may include local residents, tourism enthusiasts, and individuals who are familiar with hidden attractions, local events, and cultural activities in their area. They contribute valuable information to the platform by sharing recommendations, travel tips, and insights about local culture. Through QuestMy, they can help tourists discover authentic experiences while promoting local attractions and strengthening community involvement in tourism. 
 
-## Features & Functionalities
+## 4.0 Features & Functionalities
 
-## UI Mock-up
+## 5.0 UI Mock-up
 
-## Architectural / Technical Design
+## 6.0 Architectural / Technical Design
 
-## Data Model
+## 7.0 Data Model
 
-## Flowchart
+## 8.0 Flowchart
 ![Flowchart](Untitled%20Diagram.jpg)
 
-## References
+## 9.0 References
 </div>
 

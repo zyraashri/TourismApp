@@ -1,16 +1,47 @@
-# QuestMy
+<div align="center">
 
-## Group Information
+# PROJECT PROPOSAL: QuestMY
+KULLIYYAH OF INFORMATION AND COMMUNICATION TECHNOLOGY  
+INFO 4335 MOBILE APPLICATION DEVELOPMENT SECTION 2  
+GROUP 3 SEMESTER 2, 2025/2026  
 
-**Group** : 3
-**Section** : 2
-**Group Members** :
-- KAMA AZIRA BINTI MAT ASHRI (2316826)
-- IRDINA AMALIN HUSNA BINTI ISHAK (2318724)
-- PUTERI NUR IMAN ADRIENNA BINTI MUHAMMAD HAFIDZ (2316278)
-- PUTRI NUREEN BALQIS BINTI MOHD HAIZAM (2314984)
+</div>
 
-## Introduction
+---
+
+<div align="center">
+
+## GROUP MEMBERS
+
+| NO. | NAME | MATRIC NO | TASK |
+|------|------|------------|------|
+| 1 | KAMA AZIRA BINTI MAT ASHRI | 2316826 |  |
+| 2 | IRDINA AMALIN HUSNA BINTI ISHAK | 2318724 |  |
+| 3 | PUTERI NUR IMAN ADRIENNA BINTI MUHAMMAD HAFIDZ | 2316278 |  |
+| 4 | PUTRI NUREEN BALQIS BINTI MOHD HAIZAM | 2314984 |  |
+
+</div>
+
+<div>
+  
+## 1.0 INTRODUCTION
+
+### 1.1 Background of Study  
+The tourism industry has increasingly adopted digital technologies to improve travel experiences and information accessibility. However, most existing tourism applications remain fragmented, focusing individually on navigation, trip planning, or user reviews. This forces travelers to use multiple platforms to complete a single journey, reducing convenience and overall engagement, especially with cultural and lesser-known destinations.
+
+### 1.2 Problem Statement  
+In Malaysia, many hidden gems and community-based tourism attractions are underrepresented due to the lack of a centralized discovery platform. Existing tourism apps also lack gamification features and provide limited personalized, real-time recommendations which reduces user engagement and informed decision-making during travel.
+
+### 1.3 Proposed Solution  
+To address these issues, this project proposes QuestMY: Discover. Explore. Complete., an AI-powered community tourism platform that integrates trip planning, hidden gem discovery, cultural gamification, and real-time travel assistance in a single mobile application.
+
+### 1.4 Motivation  
+The development of QuestMY is driven by the need for a more interactive and personalized tourism experience. By combining multiple tourism functions into one platform, the application enhances travel convenience while encouraging cultural exploration and community participation.
+
+### 1.5 Relevance of the Project  
+This project supports Malaysia’s tourism development by promoting local attractions and cultural heritage. It also demonstrates the practical use of modern mobile technologies such as Flutter, Firebase, Google Maps API, and geolocation services.
+
+---
 
 ## Objectives
 
@@ -30,3 +61,5 @@
 ![Flowchart](Untitled%20Diagram.jpg)
 
 ## References
+</div>
+

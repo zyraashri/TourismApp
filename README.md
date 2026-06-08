@@ -27,6 +27,6 @@
 ## Data Model
 
 ## Flowchart
-![Flow chart](main\Untitled Diagram.jpg)
+![Flow chart](Untitled Diagram.jpg)
 
 ## References

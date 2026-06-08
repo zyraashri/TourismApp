@@ -54,6 +54,36 @@ This project supports Malaysia’s tourism development by promoting local attrac
 ## 5.0 UI Mock-up
 
 ## 6.0 Architectural / Technical Design
+### 6.1 System Architecture
+QuestMY uses a client–server architecture, where the Flutter mobile app acts as the frontend and Firebase serves as the backend. The system supports real-time data sync for travel planning, community updates, and user progress.
+
+### 6.2 Widget / Component Structure
+The app is built using a feature-based modular structure to improve organization and scalability. Each module contains its own screens, widgets, and services.
+
+### Main Modules:
+1. Authentication: Login, Register, Auth wrapper
+2. Smart Journey Planner: Trip creation, itinerary, budget tracker
+3. Hidden Gems Community: Discover places, upload, reviews
+4. Cultural Quest: Missions, check-in, badges, progress
+5. Smart Travel Companion: Nearby places, map, recommendations
+
+### Shared Widgets:
+1. Buttons
+2. App bars
+3. Loading indicators
+4. Navigation bar
+
+### 6.3 State Management
+The app uses Provider for state management because it is simple, lightweight and suitable for Flutter-Firebase integration.
+
+### Main Providers:
+1. AuthProvider: User login and session
+2. TripProvider: Trip and itinerary data
+3. PlaceProvider: Hidden gems and search
+4. QuestProvider: Missions, badges, progress
+5. LocationProvider: Real-time location and nearby suggestions
+
+### 6.4 System Architecture Diagram
 
 ## 7.0 Data Model
 

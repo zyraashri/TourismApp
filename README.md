@@ -84,6 +84,7 @@ The app uses Provider for state management because it is simple, lightweight and
 5. LocationProvider: Real-time location and nearby suggestions
 
 ### 6.4 System Architecture Diagram
+![SysArchitecture](System Architecture.jpg)
 
 ## 7.0 Data Model
 

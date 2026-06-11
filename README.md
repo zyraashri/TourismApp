@@ -44,6 +44,10 @@ This project supports Malaysia’s tourism development by promoting local attrac
 ---
 
 ## 2.0 Objectives
+1. To analyze users' travel prefereneces, interests, and behaviour using Ai techniques to generate personalized travel recommendations and itineraries.
+2. To develop a community-generated reviews, ratings, and travel experiences in order to recommend relevant hidden gems and attractions to users.
+3. To provide real-time assistance, including navigation, local insights, weather updates and travel tips, to improve overall experience
+4. To support sustainable tourism by encouraging visitors to explore diverse destinations beyond popular tourist hotspots.
 
 ## 3.0 Target Users
   The primary users of QuestMy are local and international travelers who enjoy exploring new places and experiencing different cultures. These users frequently use mobile applications to plan, manage their trips, and are interested in discovering unique attractions, receiving personalized travel recommendations, and accessing real-time travel assistance during their journeys. In addition, they enjoy interactive experiences such as challenges, rewards, and gamified activities that make travelling more engaging and enjoyable. QuestMy helps these users by providing trip planning tools, community-based recommendations, cultural activities, and travel support in a single platform. 

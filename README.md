@@ -241,10 +241,10 @@ This module serves as the user’s main overview page, providing quick access to
 This module enable users to plan their trip, itenerary and budget.
 
 ### Travel Planner Page
-<img width="336" height="746" alt="image" src="https://github.com/user-attachments/assets/a92ca65b-c6e8-45f8-89b5-26a5d1a9c2ee" />
+<img width="296" height="661" alt="image" src="https://github.com/user-attachments/assets/22896856-e763-48b9-a801-27a2ee96788f" />
 
 ### Add a new trip page
-<img width="335" height="748" alt="image" src="https://github.com/user-attachments/assets/2a351675-2fdb-40bf-a710-ba77e635dd8f" />
+<img width="352" height="789" alt="image" src="https://github.com/user-attachments/assets/60deab37-c057-41fc-b36e-ce6b014bf62e" />
 
 ### Itenerary and Budget Page
 <img width="1006" height="709" alt="image" src="https://github.com/user-attachments/assets/1ef432cc-72be-484f-a6ae-febc6fb8c4b4" />

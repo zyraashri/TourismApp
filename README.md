@@ -54,21 +54,22 @@ This project supports Malaysia’s tourism development by promoting local attrac
   The secondary users of QuestMy are local community members who want to share their knowledge and experiences with travelers. These users may include local residents, tourism enthusiasts, and individuals who are familiar with hidden attractions, local events, and cultural activities in their area. They contribute valuable information to the platform by sharing recommendations, travel tips, and insights about local culture. Through QuestMy, they can help tourists discover authentic experiences while promoting local attractions and strengthening community involvement in tourism. 
 
 ## 4.0 Features & Functionalities
+## 4.0 Features & Functionalities
 
-QuestMY consists of four main modules that provide trip planning, attraction discovery, cultural engagement, and real-time travel assistance within a single platform.
+QuestMY consists of four main modules that provide trip planning, attraction discovery, cultural engagement, and AI-powered travel assistance within a single platform. The application integrates Flutter, Firebase, Google Maps API, Geolocator, and Gemini AI to deliver a seamless and personalized tourism experience.
 
 ### 4.1 User Authentication & Profile Management
 
-This module allows users to securely access the application and manage their personal information.
+This module enables users to securely access the application and manage their personal information.
 
 #### Features
 - User registration using email and password
 - User login and logout
-- User profile management
+- Profile management
 - Secure authentication using Firebase Authentication
 
 #### User Interaction
-Users create an account, log in to the application, and access personalized travel information such as saved trips, reviews, achievements, and preferences.
+Users create an account, log in to the application, and access personalized travel information such as saved trips, reviews, achievements, and travel preferences.
 
 ---
 
@@ -82,6 +83,7 @@ This module helps users organize and manage their travel itineraries efficiently
 - Travel calendar scheduling
 - Budget planning and expense tracking
 - Save favourite locations
+- View planned trips and travel history
 
 #### User Interaction
 Users create a trip, add destinations of interest, organize travel schedules, monitor estimated expenses, and save itineraries for future reference.
@@ -98,9 +100,10 @@ This module enables users to discover unique attractions and share travel experi
 - Image upload and sharing
 - Community recommendations
 - Search and filtering by category or location
+- Save attractions to favourites
 
 #### User Interaction
-Users can upload photos of attractions, write reviews, provide ratings, and browse recommendations contributed by other community members.
+Users can upload photos of attractions, write reviews, provide ratings, and browse recommendations contributed by other community members. Hidden gems discovered through the community can be added directly to users’ travel plans.
 
 ---
 
@@ -126,13 +129,13 @@ This module encourages users to engage with local culture and heritage through i
 **Reward:** 🏅 Melaka Explorer Badge
 
 #### User Interaction
-Users visit designated attractions, complete location check-ins, answer cultural quizzes, and earn achievement badges that are stored in their digital travel passport.
+Users visit designated attractions, complete location check-ins, answer cultural quizzes, and earn achievement badges that are stored in their digital travel passport. The system tracks user progress and encourages exploration of cultural and historical destinations throughout Malaysia.
 
 ---
 
 ### 4.5 Smart Travel Companion
 
-This module provides real-time travel assistance and personalized recommendations based on the user's current location.
+This module provides real-time travel assistance and AI-powered recommendations based on the user's current location, travel preferences, and interests.
 
 #### Features
 - Nearby attraction recommendations
@@ -140,32 +143,46 @@ This module provides real-time travel assistance and personalized recommendation
 - Nearby events and festivals
 - Travel alerts and updates
 - Personalized travel suggestions
+- AI travel assistant powered by Gemini AI
+
+#### AI-Powered Recommendation System
+
+Gemini AI analyses:
+- User interests and travel preferences
+- Saved destinations and favourite attractions
+- Current location
+- Community reviews and ratings
+- Ongoing events and nearby attractions
+
+Based on these inputs, the AI generates personalized recommendations and contextual travel guidance to enhance the user's travel experience.
 
 #### Example Recommendation
 
 **Current Location:** Jonker Street, Melaka
 
-**Suggested Activities:**
-- Hidden café nearby
-- Cultural performance tonight
-- Nearby halal food options
-- Tourist crowd level updates
+**User Interests:** Heritage, Local Food, Photography
+
+**Gemini AI Suggestions:**
+- Visit Melaka Sultanate Palace Museum
+- Explore Kampung Morten Cultural Village
+- Try local Nyonya cuisine nearby
+- Attend a cultural performance tonight
 
 #### User Interaction
-The application detects the user's location and provides recommendations for nearby attractions, food outlets, and ongoing cultural events to enhance the travel experience.
+Users open the Smart Travel Companion module, allow location access, and receive AI-generated recommendations tailored to their travel preferences and current surroundings.
 
 ---
 
 ### 4.6 Firebase Integration
 
-Firebase services are integrated throughout the application to support authentication, cloud storage, and real-time data management.
+Firebase services are integrated throughout the application to support authentication, cloud storage, notifications, and real-time data management.
 
 | Firebase Service | Purpose |
 |------------------|----------|
 | Firebase Authentication | User registration and login |
-| Cloud Firestore | Store trips, reviews, achievements, and attraction data |
-| Firebase Storage | Store uploaded images |
-| Firebase Cloud Messaging | Send travel notifications and alerts |
+| Cloud Firestore | Store trips, reviews, achievements, user profiles, and attraction data |
+| Firebase Storage | Store uploaded attraction images |
+| Firebase Cloud Messaging | Send travel alerts and notifications |
 
 ---
 
@@ -176,14 +193,26 @@ The application utilizes several external packages and APIs to improve functiona
 | Technology | Purpose |
 |------------|----------|
 | Flutter | Mobile application development |
-| Firebase | Backend services |
+| Firebase | Backend services and cloud database |
 | Google Maps API | Location and map services |
 | Geolocator | User location detection |
 | Provider | State management |
+| Gemini AI API | Personalized travel recommendations and AI assistance |
 
-These technologies enable location-based services, real-time data synchronization, map integration, and efficient application state management.
+These technologies enable location-based services, AI-powered recommendations, real-time data synchronization, map integration, and efficient application state management.
 
-### 4.1 User Authentication & Profile Management
+### 4.8 Module Assignment
+
+The development of QuestMY is divided into four main modules, with each group member responsible for designing, implementing, and presenting a specific feature of the application.
+
+| Member | Module | Responsibilities |
+|----------|----------|----------|
+| **Putri Nureen Balqis Binti Mohd Haizam** | Smart Journey Planner | Develop trip planning features including itinerary creation, destination management, budget planning, travel calendar, and favourite locations. |
+| **Irdina Amalin Husna Binti Ishak** | Hidden Gems & Community Discovery | Develop community-based attraction sharing features including reviews, ratings, image uploads, recommendations, and search functionality. |
+| **Puteri Nur Iman Adrienna Binti Muhammad Hafidz** | Cultural Quest & Tourism Gamification | Develop tourism challenges, location check-ins, cultural quizzes, achievement badges, digital travel passport, and progress tracking. |
+| **Kama Azira Binti Mat Ashri** | Smart Travel Companion | Develop real-time travel assistance features including nearby recommendations, location services, travel alerts, and Gemini AI-powered recommendation system. |
+
+Each module is integrated through Firebase services and follows a shared application architecture to ensure seamless user experience and data synchronization throughout the platform.
 
 ## 5.0 UI Mock-up
 

@@ -276,6 +276,14 @@ This module enables users to discover, share, and review unique attractions acro
 - Review submission
 - Community feedback contribution
 
+---
+
+## 5.3 Cultural Quest & Tourism Gamification
+This module encourages users to engage with local culture and heritage through interactive tourism challenges.
+![CulturalQuest](CulturalQuest.jpg)
+
+---
+
 ## 6.0 Architectural / Technical Design
 ### 6.1 System Architecture
 QuestMY uses a client–server architecture, where the Flutter mobile app acts as the frontend and Firebase serves as the backend. The system supports real-time data sync for travel planning, community updates, and user progress.

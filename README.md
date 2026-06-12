@@ -115,7 +115,6 @@ This module encourages users to engage with local culture and heritage through i
 - Location-based check-in system
 - Heritage and cultural quizzes
 - Achievement badges and rewards
-- Digital travel passport
 - State completion tracker
 
 #### Example Challenge
@@ -280,8 +279,15 @@ This module enables users to discover, share, and review unique attractions acro
 
 ## 5.3 Cultural Quest & Tourism Gamification
 This module encourages users to engage with local culture and heritage through interactive tourism challenges.
-![CulturalQuest](CulturalQuest.jpg)
+![CulturalQuest](CulturalQuest.png)
 
+**Features:**
+- Tourism missions and challenges
+- Location-based check-in system
+- Heritage and cultural quizzes
+- Achievement badges and rewards
+- State completion tracker
+  
 ---
 
 ## 6.0 Architectural / Technical Design

@@ -225,7 +225,7 @@ The onboarding screens introduce users to QuestMY and provide a brief overview o
 
 This module serves as the user’s main overview page, providing quick access to travel progress, upcoming trips, and recommendations.
 
-![HomeDashboard](HomeDashboard.png)
+<img width="412" height="917" alt="Home Dashboard" src="https://github.com/user-attachments/assets/167b5aca-1a69-430b-9bb5-afae3d273674" />
 
 **Features:**
 - View travel overview and activity summary
@@ -326,7 +326,8 @@ This module encourages users to engage with local culture and heritage through i
 ## 5.6 Smart Travel Companion
 This module provides real-time assistance based on the user’s current location, helping them explore nearby attractions, food spots, and events more efficiently.
 
-![SmartCompanion](SmartCompanion.png)
+<img width="412" height="917" alt="Smart Companion" src="https://github.com/user-attachments/assets/eb55a989-716b-4925-966e-dcb35c084f85" />
+
 
 **Features:**
 - Display current location and weather information
@@ -370,7 +371,8 @@ The app uses Provider for state management because it is simple, lightweight and
 5. LocationProvider: Real-time location and nearby suggestions
 
 ### 6.4 System Architecture Diagram
-![SysArchitecture](SystemArchitecture.png)
+<img width="1920" height="1080" alt="SystemArchitecture" src="https://github.com/user-attachments/assets/28d20330-d71c-4beb-ba4a-38164484c58e" />
+
 
 ## 7.0 Data Model
 <img width="1700" height="1100" alt="Untitled Diagram" src="https://github.com/user-attachments/assets/bf7089b1-ad5d-427c-a00d-03fd654cebe5" />

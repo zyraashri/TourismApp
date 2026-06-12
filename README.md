@@ -221,8 +221,23 @@ The onboarding screens introduce users to QuestMY and provide a brief overview o
 <img width="1261" height="673" alt="image" src="https://github.com/user-attachments/assets/0fece6c1-5d9b-4445-8972-d1fa13a66576" />
 
 ---
+## 5.2 Home Dashboard
 
-## 5.2 Hidden Gems & Community Discovery
+This module serves as the user’s main overview page, providing quick access to travel progress, upcoming trips, and recommendations.
+
+![HomeDashboard](HomeDashboard.png)
+
+**Features:**
+- View travel overview and activity summary
+- Track planned trips and completed destinations
+- Access upcoming adventures and itineraries
+- Continue ongoing quests and progress
+- Explore recommended destinations
+- Quick navigation to main modules
+
+---
+
+## 5.4 Hidden Gems & Community Discovery
 
 This module enables users to discover, share, and review unique attractions across Malaysia through community contributions.
 
@@ -277,7 +292,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ---
 
-## 5.3 Cultural Quest & Tourism Gamification
+## 5.5 Cultural Quest & Tourism Gamification
 This module encourages users to engage with local culture and heritage through interactive tourism challenges.
 ![CulturalQuest](CulturalQuest.png)
 
@@ -287,6 +302,21 @@ This module encourages users to engage with local culture and heritage through i
 - Heritage and cultural quizzes
 - Achievement badges and rewards
 - State completion tracker
+  
+---
+
+## 5.6 Smart Travel Companion
+This module provides real-time assistance based on the user’s current location, helping them explore nearby attractions, food spots, and events more efficiently.
+![SmartCompanion](SmartCompanion.png)
+
+**Features:**
+- Display current location and weather information
+- AI-powered travel suggestions based on nearby attractions
+- Discover nearby attractions with ratings and distance
+- Find nearby restaurants and local food spots
+- Explore nearby events and activities
+- Receive travel alerts and route updates
+- Save suggestions for later reference
   
 ---
 

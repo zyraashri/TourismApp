@@ -254,7 +254,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ### Add Hidden Gem Screen
 
-<img width="783" height="818" alt="image" src="https://github.com/user-attachments/assets/5c1e6455-cba0-4c35-ab94-fd04cb72b94d" />
+<img width="720" height="751" alt="image" src="https://github.com/user-attachments/assets/b2025dfc-7b7b-42da-adc7-49e5de588291" />
 
 **Features:**
 - Attraction name and description

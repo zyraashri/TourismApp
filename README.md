@@ -207,7 +207,7 @@ The development of QuestMY is divided into four main modules, with each group me
 |----------|----------|----------|
 | **Putri Nureen Balqis Binti Mohd Haizam** | Smart Journey Planner | Develop trip planning features including itinerary creation, destination management, budget planning, travel calendar, and favourite locations. |
 | **Irdina Amalin Husna Binti Ishak** | Hidden Gems & Community Discovery | Develop community-based attraction sharing features including reviews, ratings, image uploads, recommendations, and search functionality. |
-| **Puteri Nur Iman Adrienna Binti Muhammad Hafidz** | Cultural Quest & Tourism Gamification | Develop tourism challenges, location check-ins, cultural quizzes, achievement badges, digital travel passport, and progress tracking. |
+| **Puteri Nur Iman Adrienna Binti Muhammad Hafidz** | Cultural Quest & Tourism Gamification | Develop tourism challenges, location check-ins, cultural quizzes, achievement badges, and progress tracking. |
 | **Kama Azira Binti Mat Ashri** | Smart Travel Companion | Develop real-time travel assistance features including nearby recommendations, location services, travel alerts, and Gemini AI-powered recommendation system. |
 
 Each module is integrated through Firebase services and follows a shared application architecture to ensure seamless user experience and data synchronization throughout the platform.

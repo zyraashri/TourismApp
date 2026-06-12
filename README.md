@@ -312,7 +312,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ## 5.5 Cultural Quest & Tourism Gamification
 This module encourages users to engage with local culture and heritage through interactive tourism challenges.
-![CulturalQuest](CulturalQuest.png)
+<img width="757" height="807" alt="CulturalQuest" src="https://github.com/user-attachments/assets/108016ff-c27c-40c4-a538-418ec4e363fe" />
 
 **Features:**
 - Tourism missions and challenges
@@ -379,7 +379,7 @@ The app uses Provider for state management because it is simple, lightweight and
 
 
 ## 8.0 Flowchart
-![Flowchart](Untitled%20Diagram.jpg)
+<img width="830" height="941" alt="Untitled Diagram (3)" src="https://github.com/user-attachments/assets/d5224b3e-9105-4689-ab66-748f4471ed08" />
 
 ## 9.0 References
 

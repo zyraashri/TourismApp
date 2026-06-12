@@ -54,7 +54,6 @@ This project supports Malaysia’s tourism development by promoting local attrac
   The secondary users of QuestMy are local community members who want to share their knowledge and experiences with travelers. These users may include local residents, tourism enthusiasts, and individuals who are familiar with hidden attractions, local events, and cultural activities in their area. They contribute valuable information to the platform by sharing recommendations, travel tips, and insights about local culture. Through QuestMy, they can help tourists discover authentic experiences while promoting local attractions and strengthening community involvement in tourism. 
 
 ## 4.0 Features & Functionalities
-## 4.0 Features & Functionalities
 
 QuestMY consists of four main modules that provide trip planning, attraction discovery, cultural engagement, and AI-powered travel assistance within a single platform. The application integrates Flutter, Firebase, Google Maps API, Geolocator, and Gemini AI to deliver a seamless and personalized tourism experience.
 

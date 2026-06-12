@@ -214,6 +214,69 @@ The development of QuestMY is divided into four main modules, with each group me
 Each module is integrated through Firebase services and follows a shared application architecture to ensure seamless user experience and data synchronization throughout the platform.
 
 ## 5.0 UI Mock-up
+# 5.0 User Interface (UI) Mockups
+
+## 5.1 Onboarding Screens
+
+The onboarding screens introduce users to QuestMY and provide a brief overview of the application's key features.
+
+| Welcome Screen | Discover Hidden Gems | Smart Travel Experience |
+|---------------|----------------------|-------------------------|
+<img width="1261" height="673" alt="image" src="https://github.com/user-attachments/assets/0fece6c1-5d9b-4445-8972-d1fa13a66576" />
+
+| <img src="screenshots/onboarding1.png" width="220"> | <img src="screenshots/onboarding2.png" width="220"> | <img src="screenshots/onboarding3.png" width="220"> |
+
+---
+
+## 5.2 Hidden Gems & Community Discovery
+
+This module enables users to discover, share, and review unique attractions across Malaysia through community contributions.
+
+### Hidden Gems Home Screen
+
+<img src="screenshots/hidden_gems_home.png" width="300">
+
+**Features:**
+- Search attractions
+- Category filtering
+- View ratings and attraction information
+- Add new hidden gems
+
+---
+
+### Hidden Gem Details Screen
+
+<img src="screenshots/hidden_gem_details.png" width="300">
+
+**Features:**
+- Attraction details
+- Location information
+- Ratings and reviews
+- Add review functionality
+
+---
+
+### Add Hidden Gem Screen
+
+<img src="screenshots/add_hidden_gem.png" width="300">
+
+**Features:**
+- Attraction name and description
+- Location input
+- Category selection
+- Image upload
+- Submit attraction
+
+---
+
+### Add Review Screen
+
+<img src="screenshots/add_review.png" width="300">
+
+**Features:**
+- Star rating system
+- Review submission
+- Community feedback contribution
 
 ## 6.0 Architectural / Technical Design
 ### 6.1 System Architecture

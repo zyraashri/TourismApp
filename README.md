@@ -230,7 +230,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ### Hidden Gems Home Screen
 
-<img width="363" height="807" alt="image" src="https://github.com/user-attachments/assets/76824f7b-a99f-40d3-8cce-b1141ce1b75e" />
+<img width="373" height="807" alt="image" src="https://github.com/user-attachments/assets/ee5eee52-6cd5-4e8d-b29f-ad611088474f" />
 
 **Features:**
 - Search attractions
@@ -242,7 +242,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ### Hidden Gem Details Screen
 
-<img width="363" height="811" alt="image" src="https://github.com/user-attachments/assets/1355bf4d-6fc8-4f69-93f2-3aeef1dbd384" />
+<img width="372" height="803" alt="image" src="https://github.com/user-attachments/assets/8e030983-b52d-4ffd-8777-62100a45c702" />
 
 **Features:**
 - Attraction details
@@ -267,7 +267,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ### Add Review Screen
 
-<img width="365" height="810" alt="image" src="https://github.com/user-attachments/assets/9bab757e-677c-4b74-b808-019e7b5bd335" />
+<img width="373" height="803" alt="image" src="https://github.com/user-attachments/assets/61e58a7e-bf6f-42a3-ab82-b8b456f18159" />
 
 **Features:**
 - Star rating system

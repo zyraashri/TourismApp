@@ -236,6 +236,24 @@ This module serves as the user’s main overview page, providing quick access to
 - Quick navigation to main modules
 
 ---
+## 5.3 Smart Journey Planner
+
+This module enable users to plan their trip, itenerary and budget.
+
+### Travel Planner Page
+<img width="336" height="746" alt="image" src="https://github.com/user-attachments/assets/a92ca65b-c6e8-45f8-89b5-26a5d1a9c2ee" />
+
+### Add a new trip page
+<img width="335" height="748" alt="image" src="https://github.com/user-attachments/assets/2a351675-2fdb-40bf-a710-ba77e635dd8f" />
+
+### Itenerary and Budget Page
+<img width="1006" height="709" alt="image" src="https://github.com/user-attachments/assets/1ef432cc-72be-484f-a6ae-febc6fb8c4b4" />
+
+**Features :**
+- Trip creation
+- Destination management
+- Itenerary creation
+- Budget planning
 
 ## 5.4 Hidden Gems & Community Discovery
 

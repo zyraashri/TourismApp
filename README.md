@@ -220,11 +220,7 @@ Each module is integrated through Firebase services and follows a shared applica
 
 The onboarding screens introduce users to QuestMY and provide a brief overview of the application's key features.
 
-| Welcome Screen | Discover Hidden Gems | Smart Travel Experience |
-|---------------|----------------------|-------------------------|
 <img width="1261" height="673" alt="image" src="https://github.com/user-attachments/assets/0fece6c1-5d9b-4445-8972-d1fa13a66576" />
-
-| <img src="screenshots/onboarding1.png" width="220"> | <img src="screenshots/onboarding2.png" width="220"> | <img src="screenshots/onboarding3.png" width="220"> |
 
 ---
 
@@ -234,7 +230,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ### Hidden Gems Home Screen
 
-<img src="screenshots/hidden_gems_home.png" width="300">
+<img width="363" height="807" alt="image" src="https://github.com/user-attachments/assets/76824f7b-a99f-40d3-8cce-b1141ce1b75e" />
 
 **Features:**
 - Search attractions
@@ -246,7 +242,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ### Hidden Gem Details Screen
 
-<img src="screenshots/hidden_gem_details.png" width="300">
+<img width="363" height="811" alt="image" src="https://github.com/user-attachments/assets/1355bf4d-6fc8-4f69-93f2-3aeef1dbd384" />
 
 **Features:**
 - Attraction details
@@ -258,7 +254,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ### Add Hidden Gem Screen
 
-<img src="screenshots/add_hidden_gem.png" width="300">
+<img width="783" height="818" alt="image" src="https://github.com/user-attachments/assets/5c1e6455-cba0-4c35-ab94-fd04cb72b94d" />
 
 **Features:**
 - Attraction name and description
@@ -271,7 +267,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 ### Add Review Screen
 
-<img src="screenshots/add_review.png" width="300">
+<img width="365" height="810" alt="image" src="https://github.com/user-attachments/assets/9bab757e-677c-4b74-b808-019e7b5bd335" />
 
 **Features:**
 - Star rating system

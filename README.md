@@ -307,6 +307,7 @@ This module encourages users to engage with local culture and heritage through i
 
 ## 5.6 Smart Travel Companion
 This module provides real-time assistance based on the user’s current location, helping them explore nearby attractions, food spots, and events more efficiently.
+
 ![SmartCompanion](SmartCompanion.png)
 
 **Features:**

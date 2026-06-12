@@ -55,6 +55,136 @@ This project supports Malaysia’s tourism development by promoting local attrac
 
 ## 4.0 Features & Functionalities
 
+QuestMY consists of four main modules that provide trip planning, attraction discovery, cultural engagement, and real-time travel assistance within a single platform.
+
+### 4.1 User Authentication & Profile Management
+
+This module allows users to securely access the application and manage their personal information.
+
+#### Features
+- User registration using email and password
+- User login and logout
+- User profile management
+- Secure authentication using Firebase Authentication
+
+#### User Interaction
+Users create an account, log in to the application, and access personalized travel information such as saved trips, reviews, achievements, and preferences.
+
+---
+
+### 4.2 Smart Journey Planner
+
+This module helps users organize and manage their travel itineraries efficiently.
+
+#### Features
+- Create and manage travel plans
+- Add destinations and attractions
+- Travel calendar scheduling
+- Budget planning and expense tracking
+- Save favourite locations
+
+#### User Interaction
+Users create a trip, add destinations of interest, organize travel schedules, monitor estimated expenses, and save itineraries for future reference.
+
+---
+
+### 4.3 Hidden Gems & Community Discovery
+
+This module enables users to discover unique attractions and share travel experiences with the community.
+
+#### Features
+- Hidden gem attraction submissions
+- Attraction reviews and ratings
+- Image upload and sharing
+- Community recommendations
+- Search and filtering by category or location
+
+#### User Interaction
+Users can upload photos of attractions, write reviews, provide ratings, and browse recommendations contributed by other community members.
+
+---
+
+### 4.4 Cultural Quest & Tourism Gamification
+
+This module encourages users to engage with local culture and heritage through interactive tourism challenges.
+
+#### Features
+- Tourism missions and challenges
+- Location-based check-in system
+- Heritage and cultural quizzes
+- Achievement badges and rewards
+- Digital travel passport
+- State completion tracker
+
+#### Example Challenge
+
+**Melaka Heritage Quest**
+- Visit A Famosa
+- Visit Stadthuys
+- Complete Heritage Quiz
+
+**Reward:** 🏅 Melaka Explorer Badge
+
+#### User Interaction
+Users visit designated attractions, complete location check-ins, answer cultural quizzes, and earn achievement badges that are stored in their digital travel passport.
+
+---
+
+### 4.5 Smart Travel Companion
+
+This module provides real-time travel assistance and personalized recommendations based on the user's current location.
+
+#### Features
+- Nearby attraction recommendations
+- Nearby halal food recommendations
+- Nearby events and festivals
+- Travel alerts and updates
+- Personalized travel suggestions
+
+#### Example Recommendation
+
+**Current Location:** Jonker Street, Melaka
+
+**Suggested Activities:**
+- Hidden café nearby
+- Cultural performance tonight
+- Nearby halal food options
+- Tourist crowd level updates
+
+#### User Interaction
+The application detects the user's location and provides recommendations for nearby attractions, food outlets, and ongoing cultural events to enhance the travel experience.
+
+---
+
+### 4.6 Firebase Integration
+
+Firebase services are integrated throughout the application to support authentication, cloud storage, and real-time data management.
+
+| Firebase Service | Purpose |
+|------------------|----------|
+| Firebase Authentication | User registration and login |
+| Cloud Firestore | Store trips, reviews, achievements, and attraction data |
+| Firebase Storage | Store uploaded images |
+| Firebase Cloud Messaging | Send travel notifications and alerts |
+
+---
+
+### 4.7 External Packages & APIs
+
+The application utilizes several external packages and APIs to improve functionality and user experience.
+
+| Technology | Purpose |
+|------------|----------|
+| Flutter | Mobile application development |
+| Firebase | Backend services |
+| Google Maps API | Location and map services |
+| Geolocator | User location detection |
+| Provider | State management |
+
+These technologies enable location-based services, real-time data synchronization, map integration, and efficient application state management.
+
+### 4.1 User Authentication & Profile Management
+
 ## 5.0 UI Mock-up
 
 ## 6.0 Architectural / Technical Design

@@ -370,7 +370,7 @@ The app uses Provider for state management because it is simple, lightweight and
 5. LocationProvider: Real-time location and nearby suggestions
 
 ### 6.4 System Architecture Diagram
-![SysArchitecture](SystemArchitecture.jpg)
+![SysArchitecture](SystemArchitecture.png)
 
 ## 7.0 Data Model
 <img width="1700" height="1100" alt="Untitled Diagram" src="https://github.com/user-attachments/assets/bf7089b1-ad5d-427c-a00d-03fd654cebe5" />

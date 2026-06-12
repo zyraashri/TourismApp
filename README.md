@@ -214,7 +214,6 @@ The development of QuestMY is divided into four main modules, with each group me
 Each module is integrated through Firebase services and follows a shared application architecture to ensure seamless user experience and data synchronization throughout the platform.
 
 ## 5.0 UI Mock-up
-# 5.0 User Interface (UI) Mockups
 
 ## 5.1 Onboarding Screens
 
@@ -244,6 +243,7 @@ This module enables users to discover, share, and review unique attractions acro
 
 <img width="372" height="803" alt="image" src="https://github.com/user-attachments/assets/8e030983-b52d-4ffd-8777-62100a45c702" />
 
+
 **Features:**
 - Attraction details
 - Location information
@@ -255,6 +255,7 @@ This module enables users to discover, share, and review unique attractions acro
 ### Add Hidden Gem Screen
 
 <img width="720" height="751" alt="image" src="https://github.com/user-attachments/assets/b2025dfc-7b7b-42da-adc7-49e5de588291" />
+
 
 **Features:**
 - Attraction name and description
@@ -268,6 +269,7 @@ This module enables users to discover, share, and review unique attractions acro
 ### Add Review Screen
 
 <img width="373" height="803" alt="image" src="https://github.com/user-attachments/assets/61e58a7e-bf6f-42a3-ab82-b8b456f18159" />
+
 
 **Features:**
 - Star rating system

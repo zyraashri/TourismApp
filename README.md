@@ -362,5 +362,29 @@ The app uses Provider for state management because it is simple, lightweight and
 ![Flowchart](Untitled%20Diagram.jpg)
 
 ## 9.0 References
+
+Dribbble. (n.d.). *Web design*.  
+&nbsp;&nbsp;&nbsp;&nbsp;https://dribbble.com/tags/web-design  
+
+GeeksforGeeks. (2025, December 27). *Client-server architecture – System design*.  
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.geeksforgeeks.org/system-design/client-server-architecture-system-design/  
+
+Google. (n.d.). *Google Maps Platform*.  
+&nbsp;&nbsp;&nbsp;&nbsp;https://mapsplatform.google.com/  
+
+Google. (n.d.). *Firebase*.  
+&nbsp;&nbsp;&nbsp;&nbsp;https://firebase.google.com/  
+
+Google DeepMind. (n.d.). *Gemini*.  
+&nbsp;&nbsp;&nbsp;&nbsp;https://deepmind.google/technologies/gemini/  
+
+Flutter. (n.d.). *Flutter*.  
+&nbsp;&nbsp;&nbsp;&nbsp;https://flutter.dev/  
+
+Tourism Malaysia. (n.d.). *Malaysia Travel Official Website*.  
+&nbsp;&nbsp;&nbsp;&nbsp;https://www.malaysia.travel/  
+
+Wanderlog. (n.d.). *Wanderlog: Trip planner app and itinerary builder*.  
+&nbsp;&nbsp;&nbsp;&nbsp;https://wanderlog.com/  
 </div>
 

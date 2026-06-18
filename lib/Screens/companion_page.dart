@@ -228,6 +228,7 @@ class _CompanionPageState extends State<CompanionPage> {
 
   Widget _smartCompanionCard(SmartCompanionProvider companion) {
     final firstPlace = companion.nearbyAttractions.first;
+    final saved = companion.isSaved(firstPlace);
 
     return _card(
       padding: const EdgeInsets.all(10),
@@ -288,8 +289,14 @@ class _CompanionPageState extends State<CompanionPage> {
               const SizedBox(width: 6),
               Expanded(
                 child: _smallYellowButton(
-                  text: "Save Suggestion",
+                  text: saved ? "Saved" : "Save Suggestion",
                   iconPath: "assets/images/bookmark.png",
+                  backgroundColor: saved
+                      ? Colors.red.shade100
+                      : const Color(0xFFF6E7A6),
+                  textColor: saved
+                      ? const Color.fromARGB(255, 177, 12, 0)
+                      : Colors.black,
                   onTap: () {
                     companion.saveSuggestion(firstPlace, "AI Suggestion");
                   },

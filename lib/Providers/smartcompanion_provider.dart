@@ -35,24 +35,32 @@ class SmartCompanionProvider extends ChangeNotifier {
       subtitle: "4.6 (324)",
       distance: "500m",
       imagePath: "assets/images/afamosa.jpg",
+      latitude: 2.1916,
+      longitude: 102.2501,
     ),
     CompanionPlace(
       title: "Stadthuys",
       subtitle: "4.5 (114)",
       distance: "700m",
       imagePath: "assets/images/stadthuysmelaka.jpg",
+      latitude: 2.1944,
+      longitude: 102.2490,
     ),
     CompanionPlace(
       title: "Melaka River Walk",
       subtitle: "4.7 (180)",
       distance: "900m",
       imagePath: "assets/images/market.jpg",
+      latitude: 2.1950,
+      longitude: 102.2482,
     ),
     CompanionPlace(
       title: "Baba & Nyonya Museum",
       subtitle: "4.5 (464)",
       distance: "220m",
       imagePath: "assets/images/babanyonya.jpg",
+      latitude: 2.1965,
+      longitude: 102.2477,
     ),
   ];
 
@@ -467,6 +475,28 @@ Make it simple, friendly, and useful for tourists.
         }
       }
 
+      if (response.statusCode == 429) {
+        return """
+Overview
+${place.title} is recommended based on your current location at $currentLocationName.
+
+Why Visit
+It is a nearby attraction that may match your travel interest and current area.
+
+Best Time to Visit
+Morning or late afternoon is usually more comfortable.
+
+Things To Do
+• Explore the area
+• Take photos
+• Check nearby food spots
+• Visit other attractions nearby
+
+Travel Tips
+Check weather before going and use the in-app map direction for navigation.
+""";
+      }
+
       debugPrint("Gemini status: ${response.statusCode}");
       debugPrint("Gemini body: ${response.body}");
 
@@ -478,6 +508,12 @@ Make it simple, friendly, and useful for tourists.
   }
 
   Future<void> saveSuggestion(CompanionPlace place, String category) async {
+    if (savedPlaceTitles.contains(place.title)) {
+      savedPlaceTitles.remove(place.title);
+      notifyListeners();
+      return;
+    }
+
     savedPlaceTitles.add(place.title);
     notifyListeners();
 
@@ -508,6 +544,8 @@ class CompanionPlace {
   final String? imageUrl;
   final String? distance;
   final List<String> tags;
+  final double? latitude;
+  final double? longitude;
 
   CompanionPlace({
     required this.title,
@@ -516,6 +554,8 @@ class CompanionPlace {
     this.imageUrl,
     this.distance,
     this.tags = const [],
+    this.latitude,
+    this.longitude,
   });
 
   CompanionPlace copyWith({
@@ -525,6 +565,8 @@ class CompanionPlace {
     String? imageUrl,
     String? distance,
     List<String>? tags,
+    double? latitude,
+    double? longitude,
   }) {
     return CompanionPlace(
       title: title ?? this.title,
@@ -533,6 +575,8 @@ class CompanionPlace {
       imageUrl: imageUrl ?? this.imageUrl,
       distance: distance ?? this.distance,
       tags: tags ?? this.tags,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
     );
   }
 }

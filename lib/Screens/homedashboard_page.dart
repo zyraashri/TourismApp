@@ -19,6 +19,15 @@ class HomeDashboardPage extends StatefulWidget {
 class _HomeDashboardPageState extends State<HomeDashboardPage> {
   GoogleMapController? _mapController;
 
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      context.read<HomeDashboardProvider>().loadDashboard();
+    });
+  }
+
   void goToPage(BuildContext context, Widget page) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => page));
   }

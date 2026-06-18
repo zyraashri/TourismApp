@@ -25,63 +25,31 @@ class HomeDashboardProvider extends ChangeNotifier {
     try {
       await getCurrentLocation();
 
-      const currentUserId = "demoUser";
-
-      final dashboardDoc = await FirebaseFirestore.instance
-          .collection('dashboard')
-          .doc('home')
+      final snapshot = await FirebaseFirestore.instance
+          .collection('trips')
           .get();
 
-      if (dashboardDoc.exists) {
-        final data = dashboardDoc.data()!;
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
 
-        username = data['username'] ?? username;
-        profileImageUrl = data['profileImageUrl'] ?? profileImageUrl;
-
-        upcomingTripTitle = data['upcomingTripTitle'] ?? upcomingTripTitle;
-
-        final tripDateData = data['upcomingTripDate'];
-
-        if (tripDateData is Timestamp) {
-          upcomingTripDate = tripDateData.toDate();
-        } else if (tripDateData is String) {
-          upcomingTripDate =
-              DateTime.tryParse(tripDateData) ?? upcomingTripDate;
+        if (data.containsKey('title')) {
+          upcomingTripTitle = data['title'];
         }
 
-        upcomingTripDestination =
-            data['upcomingTripDestination'] ?? upcomingTripDestination;
+        if (data.containsKey('destination')) {
+          upcomingTripDestination = data['destination'];
+        }
 
-        currentQuestTitle = data['currentQuestTitle'] ?? currentQuestTitle;
-        currentQuestProgress =
-            data['currentQuestProgress'] ?? currentQuestProgress;
+        if (data.containsKey('startDate')) {
+          final startDateData = data['startDate'];
+
+          if (startDateData is Timestamp) {
+            upcomingTripDate = startDateData.toDate();
+          }
+        }
       }
 
-      final tripsSnapshot = await FirebaseFirestore.instance
-          .collection('trips')
-          .where('userId', isEqualTo: currentUserId)
-          .get();
-
-      final placesVisitedSnapshot = await FirebaseFirestore.instance
-          .collection('quest_checkins')
-          .where('userId', isEqualTo: currentUserId)
-          .where('status', isEqualTo: 'completed')
-          .get();
-
-      final badgesSnapshot = await FirebaseFirestore.instance
-          .collection('user_badges')
-          .where('userId', isEqualTo: currentUserId)
-          .get();
-
-      final reviewsSnapshot = await FirebaseFirestore.instance
-          .collection('reviews')
-          .where('userId', isEqualTo: currentUserId)
-          .get();
-
-      tripsPlanned = tripsSnapshot.docs.length;
-      placesVisited = placesVisitedSnapshot.docs.length;
-      badgesEarned = badgesSnapshot.docs.length;
-      reviewsShared = reviewsSnapshot.docs.length;
+      tripsPlanned = 1;
 
       notifyListeners();
     } catch (e) {

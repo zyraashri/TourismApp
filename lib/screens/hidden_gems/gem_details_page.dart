@@ -84,6 +84,41 @@ void dispose() {
     }
   }
 
+  double calculateAverageRating(List<QueryDocumentSnapshot> reviews) {
+  if (reviews.isEmpty) {
+    return widget.rating;
+  }
+
+  double totalRating = 0;
+
+  for (final review in reviews) {
+    final data = review.data() as Map<String, dynamic>;
+    final rating = data["rating"];
+
+    if (rating is int) {
+      totalRating += rating.toDouble();
+    } else if (rating is double) {
+      totalRating += rating;
+    }
+  }
+
+  return totalRating / reviews.length;
+}
+
+String buildDynamicRatingText(List<QueryDocumentSnapshot> reviews) {
+  if (reviews.isEmpty) {
+    if (widget.isCommunitySubmission) {
+      return "${widget.rating.toStringAsFixed(0)} (1)";
+    }
+
+    return "${widget.rating.toStringAsFixed(1)} (47)";
+  }
+
+  final double averageRating = calculateAverageRating(reviews);
+
+  return "${averageRating.toStringAsFixed(1)} (${reviews.length})";
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -292,16 +327,24 @@ if (images.length > 1)
                   size: 17,
                 ),
                 const SizedBox(width: 5),
-                Text(
-                  ratingText,
-                  style: const TextStyle(
-                    color: darkColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: -0.5,
-                    height: 1.1,
-                  ),
-                ),
+                StreamBuilder<QuerySnapshot>(
+  stream: FirebaseFirestore.instance
+      .collection("hidden_gem_reviews")
+      .where("gemId", isEqualTo: widget.gemId)
+      .snapshots(),
+  builder: (context, snapshot) {
+    final reviews = snapshot.data?.docs ?? [];
+
+    return Text(
+      buildDynamicRatingText(reviews),
+      style: const TextStyle(
+        color: darkColor,
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  },
+),
               ],
             ),
           ),
@@ -459,14 +502,24 @@ if (images.length > 1)
                       size: 16,
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      ratingText,
-                      style: const TextStyle(
-                        color: darkColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    StreamBuilder<QuerySnapshot>(
+  stream: FirebaseFirestore.instance
+      .collection("hidden_gem_reviews")
+      .where("gemId", isEqualTo: widget.gemId)
+      .snapshots(),
+  builder: (context, snapshot) {
+    final reviews = snapshot.data?.docs ?? [];
+
+    return Text(
+      buildDynamicRatingText(reviews),
+      style: const TextStyle(
+        color: darkColor,
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  },
+),
                   ],
                 ),
               ),
@@ -643,13 +696,39 @@ if (images.length > 1)
 
         const SizedBox(height: 12),
 
-        if (widget.isCommunitySubmission)
-          ReviewCard(
-            rating: widget.rating.round(),
-            review: "Rated by You",
-            time: "New submission",
-          )
-        else ...[
+        if (widget.isCommunitySubmission) ...[
+  ReviewCard(
+    rating: widget.rating.round(),
+    review: "Rated by You",
+    time: "New submission",
+  ),
+
+  StreamBuilder<QuerySnapshot>(
+    stream: FirebaseFirestore.instance
+        .collection("hidden_gem_reviews")
+        .where("gemId", isEqualTo: widget.gemId)
+        .snapshots(),
+    builder: (context, snapshot) {
+      if (snapshot.hasError || !snapshot.hasData) {
+        return const SizedBox();
+      }
+
+      final reviews = snapshot.data!.docs;
+
+      return Column(
+        children: reviews.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+
+          return ReviewCard(
+            rating: data["rating"] ?? 0,
+            review: data["review"] ?? "",
+            time: "By ${data["reviewerName"] ?? "You"}",
+          );
+        }).toList(),
+      );
+    },
+  ),
+] else ...[
   const ReviewCard(
     rating: 5,
     review: "Amazing place",

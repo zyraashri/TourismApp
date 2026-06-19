@@ -1,8 +1,8 @@
 import 'package:provider/provider.dart';
-import 'package:questmy/providers/auth_provider.dart';
+import 'package:tourismapp/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'signup_page.dart';
-import 'package:questmy/screens/discover_malaysia.dart';
+import 'package:tourismapp/screens/auth/signup_page.dart';
+import 'package:tourismapp/screens/discover_malaysia.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

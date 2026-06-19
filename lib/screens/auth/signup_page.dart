@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
-import 'package:questmy/providers/auth_provider.dart';
+import 'package:tourismapp/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:questmy/screens/discover_malaysia.dart'; // Ensure this import path matches your app structure
+import 'package:tourismapp/screens/discover_malaysia.dart'; // Ensure this import path matches your app structure
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});

@@ -89,6 +89,10 @@ class HomeDashboardProvider extends ChangeNotifier {
       currentLatitude = position.latitude;
       currentLongitude = position.longitude;
 
+      debugPrint("HOME LIVE LOCATION:");
+      debugPrint("Lat: $currentLatitude");
+      debugPrint("Lng: $currentLongitude");
+
       notifyListeners();
     } catch (e) {
       debugPrint("Location error: $e");

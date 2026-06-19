@@ -36,6 +36,14 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
   Widget build(BuildContext context) {
     final home = Provider.of<HomeDashboardProvider>(context);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _mapController?.animateCamera(
+        CameraUpdate.newLatLng(
+          LatLng(home.currentLatitude, home.currentLongitude),
+        ),
+      );
+    });
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8F4EC),
       body: SafeArea(
@@ -76,34 +84,42 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                             GoogleMap(
                               onMapCreated: (controller) {
                                 _mapController = controller;
+
+                                Future.delayed(
+                                  const Duration(milliseconds: 500),
+                                  () {
+                                    _mapController?.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                        CameraPosition(
+                                          target: LatLng(
+                                            home.currentLatitude,
+                                            home.currentLongitude,
+                                          ),
+                                          zoom: 15,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                               initialCameraPosition: CameraPosition(
                                 target: LatLng(
                                   home.currentLatitude,
                                   home.currentLongitude,
                                 ),
-                                zoom: 14,
+                                zoom: 15,
                               ),
                               myLocationEnabled: true,
-                              myLocationButtonEnabled: false,
-                              zoomControlsEnabled: false,
-                              mapToolbarEnabled: false,
-                              compassEnabled: false,
-                              scrollGesturesEnabled: true,
-                              zoomGesturesEnabled: true,
-                              rotateGesturesEnabled: false,
-                              tiltGesturesEnabled: false,
-                              gestureRecognizers: {
-                                Factory<OneSequenceGestureRecognizer>(
-                                  () => EagerGestureRecognizer(),
-                                ),
-                              },
+                              myLocationButtonEnabled: true,
                               markers: {
                                 Marker(
                                   markerId: const MarkerId('currentLocation'),
                                   position: LatLng(
                                     home.currentLatitude,
                                     home.currentLongitude,
+                                  ),
+                                  infoWindow: const InfoWindow(
+                                    title: "Current Location",
                                   ),
                                 ),
                               },

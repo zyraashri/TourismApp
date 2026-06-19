@@ -70,6 +70,14 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
     });
   }
 
+  List<String> getDemoUploadedGallery() {
+    return [
+      "assets/images/uploadedgem.jpg",
+      "assets/images/uploadedgem2.jpg",
+      "assets/images/uploadedgem3.jpg",
+    ];
+  }
+
   Future<void> submitHiddenGem(BuildContext context) async {
     if (selectedImageBytes.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -83,14 +91,20 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
     });
 
     try {
+      final List<String> displayGalleryImages = getDemoUploadedGallery();
       await FirebaseFirestore.instance.collection("hidden_gems").add({
         "placeName": widget.placeName,
         "destination": widget.destination,
         "category": widget.category,
         "description": widget.description,
-
         // Review/rating fields
         "rating": widget.rating,
+
+        "imagePath": displayGalleryImages.first,
+        "galleryImages": displayGalleryImages,
+
+        "submissionType": "user",
+
         "reviewCount": 1,
 
         // Submission status

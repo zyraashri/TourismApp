@@ -552,11 +552,18 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                     final String imagePath =
                         data["imagePath"]?.toString() ?? galleryImages.first;
 
+                    final String submissionType =
+                        data["submissionType"]?.toString() ?? "";
+
                     final bool isSampleGem =
+                        submissionType == "sample" ||
                         data["photoStatus"] == "sample" ||
                         doc.id.startsWith("sample_");
 
-                    final bool isUserSubmission = !isSampleGem;
+                    final bool isUserSubmission =
+                        submissionType == "user" ||
+                        data["photoStatus"] == "selected" ||
+                        (!isSampleGem && !doc.id.startsWith("sample_"));
 
                     communityGems.add({
                       "gemId": doc.id,
@@ -569,6 +576,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                       "imagePath": imagePath,
                       "galleryImages": galleryImages,
                       "isCommunitySubmission": true,
+                      "isUserSubmission": isUserSubmission,
                     });
                   }
                 }

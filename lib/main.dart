@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:tourismapp/providers/auth_provider.dart';
 import 'package:tourismapp/screens/auth/login_page.dart';
+import 'package:tourismapp/screens/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(),
         scaffoldBackgroundColor: const Color(0xFFFCF8EF),
+        primaryColor: const Color(0xFF2E3D39),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
@@ -55,7 +57,12 @@ class MyApp extends StatelessWidget {
           PointerDeviceKind.stylus,
         },
       ),
+
+      // Keep LoginPage as first page
       home: const LoginPage(),
+
+      // HomePage is imported so Smart Journey page can still be used later
+      // after login/navigation.
     );
   }
 }

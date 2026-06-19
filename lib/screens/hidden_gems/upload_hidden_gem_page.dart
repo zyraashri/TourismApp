@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UploadHiddenGemPage extends StatefulWidget {
   final String placeName;
@@ -19,7 +23,12 @@ class UploadHiddenGemPage extends StatefulWidget {
 }
 
 class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
-  int selectedPhotos = 0;
+  final ImagePicker imagePicker = ImagePicker();
+
+  final List<Uint8List> selectedImageBytes = [];
+  final List<String> selectedImageNames = [];
+
+  bool isSubmitting = false;
 
   static const Color backgroundColor = Color(0xFFFCF8EF);
   static const Color darkColor = Color(0xFF384345);
@@ -27,22 +36,42 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
   static const Color softGrey = Color(0xFFD9D9D9);
   static const Color textGrey = Color(0xFF7A7A7A);
 
-  void selectPhotoSlot() {
-    setState(() {
-      if (selectedPhotos < 3) {
-        selectedPhotos++;
-      }
-    });
+  Future<void> selectPhotoSlot() async {
+    if (selectedImageBytes.length >= 3) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("You can upload up to 3 photos only"),
+        ),
+      );
+      return;
+    }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Image picker will be connected later"),
-      ),
+    final XFile? pickedImage = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 75,
     );
+
+    if (pickedImage == null) {
+      return;
+    }
+
+    final Uint8List imageBytes = await pickedImage.readAsBytes();
+
+    setState(() {
+      selectedImageBytes.add(imageBytes);
+      selectedImageNames.add(pickedImage.name);
+    });
   }
 
-  void submitHiddenGem(BuildContext context) {
-    if (selectedPhotos == 0) {
+  void removePhoto(int index) {
+    setState(() {
+      selectedImageBytes.removeAt(index);
+      selectedImageNames.removeAt(index);
+    });
+  }
+
+  Future<void> submitHiddenGem(BuildContext context) async {
+    if (selectedImageBytes.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Please upload at least one photo"),
@@ -51,16 +80,104 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("${widget.placeName} submitted successfully!"),
-      ),
-    );
+    setState(() {
+      isSubmitting = true;
+    });
 
-    Navigator.popUntil(
-      context,
-      (route) => route.isFirst,
-    );
+    try {
+await FirebaseFirestore.instance.collection("hidden_gems").add({
+  "placeName": widget.placeName,
+  "destination": widget.destination,
+  "category": widget.category,
+  "description": widget.description,
+
+  // Review/rating fields
+  "rating": 0,
+  "reviewCount": 0,
+
+  // Submission status
+  "status": "pending",
+
+  // Photo submission info
+  "hasPhoto": true,
+  "photoCount": selectedImageBytes.length,
+  "photoNames": selectedImageNames,
+  "photoStatus": "selected",
+
+  // Date
+  "createdAt": FieldValue.serverTimestamp(),
+});
+
+      if (!context.mounted) return;
+
+      setState(() {
+        isSubmitting = false;
+      });
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: backgroundColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: const Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: primaryColor,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  "Submitted!",
+                  style: TextStyle(
+                    color: darkColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            content: Text(
+"${widget.placeName} has been submitted successfully with ${selectedImageBytes.length} photo(s).",              style: const TextStyle(
+                color: textGrey,
+                height: 1.4,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.popUntil(
+                    context,
+                    (route) => route.isFirst,
+                  );
+                },
+                child: const Text(
+                  "Back to Hidden Gems",
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (error) {
+      if (!context.mounted) return;
+
+      setState(() {
+        isSubmitting = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to submit hidden gem: $error"),
+        ),
+      );
+    }
   }
 
   @override
@@ -82,9 +199,11 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
                         Icons.arrow_back,
                         color: darkColor,
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: isSubmitting
+                          ? null
+                          : () {
+                              Navigator.pop(context);
+                            },
                     ),
                   ),
 
@@ -204,7 +323,7 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
                     const SizedBox(height: 8),
 
                     const Text(
-                      "Add up to 3 photos. Choose clear photos that show the place well.",
+                      "Add up to 3 photos. Photos will be previewed here before submission.",
                       style: TextStyle(
                         color: textGrey,
                         fontSize: 13,
@@ -215,7 +334,7 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
                     const SizedBox(height: 18),
 
                     GestureDetector(
-                      onTap: selectPhotoSlot,
+                      onTap: isSubmitting ? null : selectPhotoSlot,
                       child: Container(
                         width: double.infinity,
                         height: 190,
@@ -250,7 +369,7 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
                             const SizedBox(height: 16),
 
                             const Text(
-                              "Tap to upload image",
+                              "Tap to choose image",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -260,9 +379,9 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
 
                             const SizedBox(height: 6),
 
-                            const Text(
-                              "JPG or PNG supported",
-                              style: TextStyle(
+                            Text(
+                              "${selectedImageBytes.length}/3 photos selected",
+                              style: const TextStyle(
                                 color: Colors.white70,
                                 fontSize: 12,
                               ),
@@ -304,7 +423,7 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
 
                           Expanded(
                             child: Text(
-                              "Photos will be uploaded to Firebase Storage in the next development phase.",
+                              "Review your selected photos before submitting this hidden gem to the community.",
                               style: TextStyle(
                                 color: darkColor,
                                 fontSize: 12,
@@ -326,23 +445,35 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    submitHiddenGem(context);
-                  },
+                  onPressed: isSubmitting
+                      ? null
+                      : () {
+                          submitHiddenGem(context);
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: darkColor,
+                    disabledBackgroundColor: Colors.grey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28),
                     ),
                   ),
-                  child: const Text(
-                    "Submit Hidden Gem",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
+                  child: isSubmitting
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2.5,
+                          ),
+                        )
+                      : const Text(
+                          "Submit Hidden Gem",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                 ),
               ),
             ),
@@ -353,36 +484,55 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
   }
 
   Widget _buildPhotoSlot(int index) {
-    final bool isSelected = index < selectedPhotos;
+    final bool hasImage = index < selectedImageBytes.length;
 
     return Expanded(
       child: GestureDetector(
-        onTap: selectPhotoSlot,
+        onTap: isSubmitting
+            ? null
+            : () {
+                if (hasImage) {
+                  removePhoto(index);
+                } else {
+                  selectPhotoSlot();
+                }
+              },
         child: Container(
           height: 82,
           decoration: BoxDecoration(
-            color: isSelected ? primaryColor.withValues(alpha: 0.15) : softGrey,
+            color: hasImage ? Colors.white : softGrey,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isSelected ? primaryColor : Colors.transparent,
+              color: hasImage ? primaryColor : Colors.transparent,
               width: 1.5,
             ),
           ),
-          child: isSelected
-              ? const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          child: hasImage
+              ? Stack(
                   children: [
-                    Icon(
-                      Icons.check_circle,
-                      color: primaryColor,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(14),
+                      child: Image.memory(
+                        selectedImageBytes[index],
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    SizedBox(height: 5),
-                    Text(
-                      "Added",
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+
+                    Positioned(
+                      top: 5,
+                      right: 5,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.black54,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 18,
+                        ),
                       ),
                     ),
                   ],

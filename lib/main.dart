@@ -1,15 +1,18 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart'; // 
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:tourismapp/providers/auth_provider.dart';
 import 'package:tourismapp/screens/auth/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   if (kIsWeb) {
-    // 👈 This block configures Firebase Web so Chrome doesn't freeze!
     await Firebase.initializeApp(
       options: const FirebaseOptions(
         apiKey: "AIzaSyCEvvCvnA2IcAYrdCQjyub9NO-uNvfnCbM",
@@ -21,15 +24,12 @@ void main() async {
       ),
     );
   } else {
-    // This handles mobile setups seamlessly if you switch later
     await Firebase.initializeApp();
   }
 
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
       child: const MyApp(),
     ),
   );
@@ -41,9 +41,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'QuestMY',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFBF8F2),
+        textTheme: GoogleFonts.poppinsTextTheme(),
+        scaffoldBackgroundColor: const Color(0xFFFCF8EF),
+      ),
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.trackpad,
+          PointerDeviceKind.stylus,
+        },
       ),
       home: const LoginPage(),
     );

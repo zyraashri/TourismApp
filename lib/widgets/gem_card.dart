@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/hidden_gems/gem_details_page.dart';
@@ -30,18 +31,6 @@ class GemCard extends StatelessWidget {
   static const Color darkColor = Color(0xFF384345);
   static const Color textGrey = Color(0xFF7A7A7A);
 
-  String get ratingText {
-    if (rating <= 0) {
-      return "New";
-    }
-
-    if (isCommunitySubmission) {
-      return "${rating.toStringAsFixed(0)} (1)";
-    }
-
-    return rating.toStringAsFixed(1);
-  }
-
   IconData get categoryIcon {
     if (category == "Nature") {
       return Icons.park_outlined;
@@ -54,6 +43,60 @@ class GemCard extends StatelessWidget {
     } else {
       return Icons.place_outlined;
     }
+  }
+
+  double calculateAverageRating(List<QueryDocumentSnapshot> reviews) {
+    double totalRating = 0;
+    int ratingCount = 0;
+
+    if (isCommunitySubmission && rating > 0) {
+      totalRating += rating;
+      ratingCount++;
+    }
+
+    for (final review in reviews) {
+      final data = review.data() as Map<String, dynamic>;
+      final reviewRating = data["rating"];
+
+      if (reviewRating is int) {
+        totalRating += reviewRating.toDouble();
+        ratingCount++;
+      } else if (reviewRating is double) {
+        totalRating += reviewRating;
+        ratingCount++;
+      } else if (reviewRating is num) {
+        totalRating += reviewRating.toDouble();
+        ratingCount++;
+      }
+    }
+
+    if (ratingCount == 0) {
+      return 0;
+    }
+
+    return totalRating / ratingCount;
+  }
+
+  int getRealRatingCount(List<QueryDocumentSnapshot> reviews) {
+    int count = reviews.length;
+
+    if (isCommunitySubmission && rating > 0) {
+      count++;
+    }
+
+    return count;
+  }
+
+  String buildRealRatingText(List<QueryDocumentSnapshot> reviews) {
+    final int count = getRealRatingCount(reviews);
+
+    if (count == 0) {
+      return "New";
+    }
+
+    final double averageRating = calculateAverageRating(reviews);
+
+    return "${averageRating.toStringAsFixed(1)} ($count)";
   }
 
   void openDetailsPage(BuildContext context) {
@@ -195,13 +238,23 @@ class GemCard extends StatelessWidget {
                           color: Colors.amber,
                         ),
                         const SizedBox(width: 4),
-                        Text(
-                          ratingText,
-                          style: const TextStyle(
-                            color: darkColor,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection("hidden_gem_reviews")
+                              .where("gemId", isEqualTo: gemId)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            final reviews = snapshot.data?.docs ?? [];
+
+                            return Text(
+                              buildRealRatingText(reviews),
+                              style: const TextStyle(
+                                color: darkColor,
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -212,21 +265,15 @@ class GemCard extends StatelessWidget {
                   left: 16,
                   right: 16,
                   bottom: 16,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 23,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 23,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               ],

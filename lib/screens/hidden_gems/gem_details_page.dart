@@ -34,6 +34,7 @@ class GemDetailsPage extends StatefulWidget {
 class _GemDetailsPageState extends State<GemDetailsPage> {
   int currentImageIndex = 0;
   final PageController imagePageController = PageController();
+  late double currentUploaderRating;
 
   static const Color backgroundColor = Color(0xFFFCF8EF);
   static const Color primaryColor = Color(0xFF3F646C);
@@ -41,33 +42,18 @@ class _GemDetailsPageState extends State<GemDetailsPage> {
   static const Color textGrey = Color(0xFF7A7A7A);
   static const Color softYellow = Color(0xFFF7EAB6);
 
+  @override
+void initState() {
+  super.initState();
+  currentUploaderRating = widget.rating;
+}
+
   List<String> get images {
     if (widget.galleryImages.isNotEmpty) {
       return widget.galleryImages;
     }
+
     return [widget.imagePath];
-  }
-
-  @override
-void dispose() {
-  imagePageController.dispose();
-  super.dispose();
-}
-
-  String get ratingText {
-    if (widget.isCommunitySubmission) {
-      return "${widget.rating.toStringAsFixed(0)} (1)";
-    }
-
-    return "${widget.rating.toStringAsFixed(1)} (47)";
-  }
-
-  String get reviewSectionTitle {
-    if (widget.isCommunitySubmission) {
-      return "Your Rating";
-    }
-
-    return "Reviews";
   }
 
   IconData get categoryIcon {
@@ -84,39 +70,233 @@ void dispose() {
     }
   }
 
+  @override
+  void dispose() {
+    imagePageController.dispose();
+    super.dispose();
+  }
+
   double calculateAverageRating(List<QueryDocumentSnapshot> reviews) {
-  if (reviews.isEmpty) {
-    return widget.rating;
-  }
+    double totalRating = 0;
+    int ratingCount = 0;
 
-  double totalRating = 0;
-
-  for (final review in reviews) {
-    final data = review.data() as Map<String, dynamic>;
-    final rating = data["rating"];
-
-    if (rating is int) {
-      totalRating += rating.toDouble();
-    } else if (rating is double) {
-      totalRating += rating;
-    }
-  }
-
-  return totalRating / reviews.length;
+if (widget.isCommunitySubmission && currentUploaderRating > 0) {
+  totalRating += currentUploaderRating;
+  ratingCount++;
 }
 
-String buildDynamicRatingText(List<QueryDocumentSnapshot> reviews) {
-  if (reviews.isEmpty) {
-    if (widget.isCommunitySubmission) {
-      return "${widget.rating.toStringAsFixed(0)} (1)";
+    for (final review in reviews) {
+      final data = review.data() as Map<String, dynamic>;
+      final reviewRating = data["rating"];
+
+      if (reviewRating is int) {
+        totalRating += reviewRating.toDouble();
+        ratingCount++;
+      } else if (reviewRating is double) {
+        totalRating += reviewRating;
+        ratingCount++;
+      } else if (reviewRating is num) {
+        totalRating += reviewRating.toDouble();
+        ratingCount++;
+      }
     }
 
-    return "${widget.rating.toStringAsFixed(1)} (47)";
+    if (ratingCount == 0) {
+      return 0;
+    }
+
+    return totalRating / ratingCount;
   }
 
-  final double averageRating = calculateAverageRating(reviews);
+  int getRealRatingCount(List<QueryDocumentSnapshot> reviews) {
+    int count = reviews.length;
 
-  return "${averageRating.toStringAsFixed(1)} (${reviews.length})";
+    if (widget.isCommunitySubmission && currentUploaderRating > 0) {
+  count++;
+}
+
+    return count;
+  }
+
+  String buildRealRatingText(List<QueryDocumentSnapshot> reviews) {
+    final int count = getRealRatingCount(reviews);
+
+    if (count == 0) {
+      return "New";
+    }
+
+    final double averageRating = calculateAverageRating(reviews);
+
+    return "${averageRating.toStringAsFixed(1)} ($count)";
+  }
+
+  void openWriteReviewPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => WriteReviewPage(
+          gemId: widget.gemId,
+          gemTitle: widget.title,
+        ),
+      ),
+    );
+  }
+  
+  void showEditUploaderRatingDialog() {
+  int temporaryRating = currentUploaderRating.round();
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            title: const Text(
+              "Edit Your Rating",
+              style: TextStyle(
+                color: darkColor,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  "Update the rating you gave for this hidden gem.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: textGrey,
+                    fontSize: 13,
+                    height: 1.4,
+                  ),
+                ),
+
+                const SizedBox(height: 18),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (index) {
+                    final int starNumber = index + 1;
+
+                    return GestureDetector(
+                      onTap: () {
+                        setDialogState(() {
+                          temporaryRating = starNumber;
+                        });
+                      },
+                      child: Icon(
+                        starNumber <= temporaryRating
+                            ? Icons.star
+                            : Icons.star_border,
+                        color: Colors.amber,
+                        size: 34,
+                      ),
+                    );
+                  }),
+                ),
+              ],
+            ),
+            actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(
+                    color: textGrey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await FirebaseFirestore.instance
+                      .collection("hidden_gems")
+                      .doc(widget.gemId)
+                      .update({
+                    "rating": temporaryRating.toDouble(),
+                  });
+
+                  if (!mounted) return;
+
+                  setState(() {
+                    currentUploaderRating = temporaryRating.toDouble();
+                  });
+
+                  Navigator.pop(context);
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Your rating has been updated."),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: darkColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+                child: const Text(
+                  "Save",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+  Stream<QuerySnapshot> get reviewsStream {
+    return FirebaseFirestore.instance
+        .collection("hidden_gem_reviews")
+        .where("gemId", isEqualTo: widget.gemId)
+        .snapshots();
+  }
+
+  String formatReviewDate(dynamic createdAt) {
+  if (createdAt == null) {
+    return "Recently";
+  }
+
+  if (createdAt is Timestamp) {
+    final DateTime reviewDate = createdAt.toDate();
+    final Duration difference = DateTime.now().difference(reviewDate);
+
+    if (difference.inMinutes < 1) {
+      return "Just now";
+    }
+
+    if (difference.inMinutes < 60) {
+      return "${difference.inMinutes} min ago";
+    }
+
+    if (difference.inHours < 24) {
+      return "${difference.inHours} hr ago";
+    }
+
+    if (difference.inDays == 1) {
+      return "Yesterday";
+    }
+
+    if (difference.inDays < 7) {
+      return "${difference.inDays} days ago";
+    }
+  }
+
+  return "Recently";
 }
 
   @override
@@ -194,14 +374,14 @@ String buildDynamicRatingText(List<QueryDocumentSnapshot> reviews) {
           height: 355,
           width: double.infinity,
           child: PageView.builder(
-  controller: imagePageController,
-  itemCount: images.length,
-  physics: const PageScrollPhysics(),
-  onPageChanged: (index) {
-    setState(() {
-      currentImageIndex = index;
-    });
-  },
+            controller: imagePageController,
+            itemCount: images.length,
+            physics: const PageScrollPhysics(),
+            onPageChanged: (index) {
+              setState(() {
+                currentImageIndex = index;
+              });
+            },
             itemBuilder: (context, index) {
               return Image.asset(
                 images[index],
@@ -255,57 +435,57 @@ String buildDynamicRatingText(List<QueryDocumentSnapshot> reviews) {
           ),
         ),
 
-if (images.length > 1)
-  Positioned(
-    left: 16,
-    top: 165,
-    child: CircleAvatar(
-      radius: 20,
-      backgroundColor: Colors.white.withValues(alpha: 0.85),
-      child: IconButton(
-        padding: EdgeInsets.zero,
-        icon: const Icon(
-          Icons.chevron_left,
-          color: darkColor,
-          size: 30,
-        ),
-        onPressed: () {
-          if (currentImageIndex > 0) {
-            imagePageController.previousPage(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
-          }
-        },
-      ),
-    ),
-  ),
+        if (images.length > 1)
+          Positioned(
+            left: 16,
+            top: 165,
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.white.withValues(alpha: 0.85),
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(
+                  Icons.chevron_left,
+                  color: darkColor,
+                  size: 30,
+                ),
+                onPressed: () {
+                  if (currentImageIndex > 0) {
+                    imagePageController.previousPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
 
-if (images.length > 1)
-  Positioned(
-    right: 16,
-    top: 165,
-    child: CircleAvatar(
-      radius: 20,
-      backgroundColor: Colors.white.withValues(alpha: 0.85),
-      child: IconButton(
-        padding: EdgeInsets.zero,
-        icon: const Icon(
-          Icons.chevron_right,
-          color: darkColor,
-          size: 30,
-        ),
-        onPressed: () {
-          if (currentImageIndex < images.length - 1) {
-            imagePageController.nextPage(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
-          }
-        },
-      ),
-    ),
-  ),
+        if (images.length > 1)
+          Positioned(
+            right: 16,
+            top: 165,
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.white.withValues(alpha: 0.85),
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(
+                  Icons.chevron_right,
+                  color: darkColor,
+                  size: 30,
+                ),
+                onPressed: () {
+                  if (currentImageIndex < images.length - 1) {
+                    imagePageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
 
         Positioned(
           top: 48,
@@ -328,23 +508,20 @@ if (images.length > 1)
                 ),
                 const SizedBox(width: 5),
                 StreamBuilder<QuerySnapshot>(
-  stream: FirebaseFirestore.instance
-      .collection("hidden_gem_reviews")
-      .where("gemId", isEqualTo: widget.gemId)
-      .snapshots(),
-  builder: (context, snapshot) {
-    final reviews = snapshot.data?.docs ?? [];
+                  stream: reviewsStream,
+                  builder: (context, snapshot) {
+                    final reviews = snapshot.data?.docs ?? [];
 
-    return Text(
-      buildDynamicRatingText(reviews),
-      style: const TextStyle(
-        color: darkColor,
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  },
-),
+                    return Text(
+                      buildRealRatingText(reviews),
+                      style: const TextStyle(
+                        color: darkColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -363,8 +540,9 @@ if (images.length > 1)
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 31,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: -0.5,
                   height: 1.1,
                 ),
               ),
@@ -503,23 +681,20 @@ if (images.length > 1)
                     ),
                     const SizedBox(width: 4),
                     StreamBuilder<QuerySnapshot>(
-  stream: FirebaseFirestore.instance
-      .collection("hidden_gem_reviews")
-      .where("gemId", isEqualTo: widget.gemId)
-      .snapshots(),
-  builder: (context, snapshot) {
-    final reviews = snapshot.data?.docs ?? [];
+                      stream: reviewsStream,
+                      builder: (context, snapshot) {
+                        final reviews = snapshot.data?.docs ?? [];
 
-    return Text(
-      buildDynamicRatingText(reviews),
-      style: const TextStyle(
-        color: darkColor,
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  },
-),
+                        return Text(
+                          buildRealRatingText(reviews),
+                          style: const TextStyle(
+                            color: darkColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -653,141 +828,166 @@ if (images.length > 1)
       children: [
         Row(
           children: [
-            Text(
-              reviewSectionTitle,
-              style: const TextStyle(
+            const Text(
+              "Reviews",
+              style: TextStyle(
                 fontSize: 22,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w900,
                 color: darkColor,
               ),
             ),
 
             const Spacer(),
 
-            if (!widget.isCommunitySubmission)
-              TextButton.icon(
-                onPressed: () {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => WriteReviewPage(
-        gemId: widget.gemId,
-        gemTitle: widget.title,
+            if (widget.isCommunitySubmission)
+  TextButton.icon(
+    onPressed: showEditUploaderRatingDialog,
+    icon: const Icon(
+      Icons.edit,
+      size: 16,
+      color: primaryColor,
+    ),
+    label: const Text(
+      "Edit rating",
+      style: TextStyle(
+        color: primaryColor,
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
       ),
     ),
-  );
-},
-                icon: const Icon(
-                  Icons.edit,
-                  size: 16,
-                  color: primaryColor,
-                ),
-                label: const Text(
-                  "Write a review",
-                  style: TextStyle(
-                    color: primaryColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+  )
+else
+  TextButton.icon(
+    onPressed: openWriteReviewPage,
+    icon: const Icon(
+      Icons.edit,
+      size: 16,
+      color: primaryColor,
+    ),
+    label: const Text(
+      "Write a review",
+      style: TextStyle(
+        color: primaryColor,
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  ),
           ],
         ),
 
         const SizedBox(height: 12),
 
-        if (widget.isCommunitySubmission) ...[
-  ReviewCard(
-    rating: widget.rating.round(),
-    review: "Rated by You",
-    time: "New submission",
-  ),
+        StreamBuilder<QuerySnapshot>(
+          stream: reviewsStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return _buildReviewEmptyState(
+                "Unable to load reviews right now.",
+              );
+            }
 
-  StreamBuilder<QuerySnapshot>(
-    stream: FirebaseFirestore.instance
-        .collection("hidden_gem_reviews")
-        .where("gemId", isEqualTo: widget.gemId)
-        .snapshots(),
-    builder: (context, snapshot) {
-      if (snapshot.hasError || !snapshot.hasData) {
-        return const SizedBox();
-      }
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(18),
+                  child: CircularProgressIndicator(
+                    color: primaryColor,
+                  ),
+                ),
+              );
+            }
 
-      final reviews = snapshot.data!.docs;
+            final reviews = snapshot.data!.docs;
 
-      return Column(
-        children: reviews.map((doc) {
-          final data = doc.data() as Map<String, dynamic>;
+            final bool hasInitialCommunityRating =
+    widget.isCommunitySubmission && currentUploaderRating > 0;
 
-          return ReviewCard(
-            rating: data["rating"] ?? 0,
-            review: data["review"] ?? "",
-            time: "By ${data["reviewerName"] ?? "You"}",
-          );
-        }).toList(),
-      );
-    },
-  ),
-] else ...[
-  const ReviewCard(
-    rating: 5,
-    review: "Amazing place",
-    time: "7 hours ago",
-  ),
-  const ReviewCard(
-    rating: 4,
-    review: "Good coffee but limited parking",
-    time: "2 days ago",
-  ),
-  const ReviewCard(
-    rating: 5,
-    review: "Great environment",
-    time: "1 week ago",
-  ),
+            if (reviews.isEmpty && !hasInitialCommunityRating) {
+              return _buildReviewEmptyState(
+                "No reviews yet. Be the first to write one!",
+              );
+            }
 
-  StreamBuilder<QuerySnapshot>(
-    stream: FirebaseFirestore.instance
-        .collection("hidden_gem_reviews")
-        .where("gemId", isEqualTo: widget.gemId)
-        .orderBy("createdAt", descending: true)
-        .snapshots(),
-    builder: (context, snapshot) {
-      if (snapshot.hasError) {
-        return const SizedBox();
-      }
+            return Column(
+              children: [
+                if (hasInitialCommunityRating)
+ReviewCard(
+  reviewerName: "You",
+  rating: currentUploaderRating.round(),
+  review: "Your rating for this hidden gem",
+  time: "Initial rating",
+),
 
-      if (!snapshot.hasData) {
-        return const SizedBox();
-      }
+                ...reviews.map((doc) {
+                  final data = doc.data() as Map<String, dynamic>;
 
-      final reviews = snapshot.data!.docs;
-
-      return Column(
-        children: reviews.map((doc) {
-          final data = doc.data() as Map<String, dynamic>;
-
-          return ReviewCard(
-            rating: data["rating"] ?? 0,
-            review: data["review"] ?? "",
-            time: "By ${data["reviewerName"] ?? "You"}",
-          );
-        }).toList(),
-      );
-    },
-  ),
-],
+                 return ReviewCard(
+  reviewerName: data["reviewerName"] ?? "Traveller",
+  rating: data["rating"] ?? 0,
+  review: data["review"] ?? "",
+  time: formatReviewDate(data["createdAt"]),
+);
+                }),
+              ],
+            );
+          },
+        ),
       ],
+    );
+  }
+
+  Widget _buildReviewEmptyState(String message) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color: const Color(0xFFE8E4D8),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 46,
+            height: 46,
+            decoration: BoxDecoration(
+              color: primaryColor.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.rate_review_outlined,
+              color: primaryColor,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(
+                color: textGrey,
+                fontSize: 13,
+                height: 1.4,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
 class ReviewCard extends StatelessWidget {
+  final String reviewerName;
   final int rating;
   final String review;
   final String time;
 
   const ReviewCard({
     super.key,
+    required this.reviewerName,
     required this.rating,
     required this.review,
     required this.time,
@@ -817,18 +1017,26 @@ class ReviewCard extends StatelessWidget {
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 52,
-            height: 52,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
               color: primaryColor.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.person,
-              color: darkColor,
-              size: 28,
+            child: Center(
+              child: Text(
+                reviewerName.isNotEmpty
+                    ? reviewerName[0].toUpperCase()
+                    : "T",
+                style: const TextStyle(
+                  color: darkColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
             ),
           ),
 
@@ -838,6 +1046,44 @@ class ReviewCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        reviewerName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: darkColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 9,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFCF8EF),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Text(
+                        time,
+                        style: const TextStyle(
+                          color: textGrey,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 6),
+
                 Row(
                   children: List.generate(
                     5,
@@ -849,27 +1095,17 @@ class ReviewCard extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
 
                 Text(
                   review,
                   style: const TextStyle(
                     color: textGrey,
                     fontSize: 13,
-                    height: 1.3,
+                    height: 1.4,
                   ),
                 ),
               ],
-            ),
-          ),
-
-          const SizedBox(width: 8),
-
-          Text(
-            time,
-            style: const TextStyle(
-              color: textGrey,
-              fontSize: 11,
             ),
           ),
         ],

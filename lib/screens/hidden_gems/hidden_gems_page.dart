@@ -179,6 +179,81 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
     return double.tryParse(value.toString()) ?? 0.0;
   }
 
+  Future<void> seedDummyReviews() async {
+  final reviews = [
+    {
+      "docId": "kopi_review_1",
+      "gemId": "kopi_hutan_cafe",
+      "gemTitle": "Kopi Hutan Cafe",
+      "rating": 5,
+      "review": "The coffee was great and the forest view made it feel relaxing.",
+      "reviewerName": "Aina Rahman",
+    },
+    {
+      "docId": "kopi_review_2",
+      "gemId": "kopi_hutan_cafe",
+      "gemTitle": "Kopi Hutan Cafe",
+      "rating": 4,
+      "review": "Nice hidden cafe, but it can get a bit crowded during weekends.",
+      "reviewerName": "Daniel Lee",
+    },
+    {
+      "docId": "tasik_review_1",
+      "gemId": "tasik_timah_tasoh",
+      "gemTitle": "Tasik Timah Tasoh",
+      "rating": 5,
+      "review": "Beautiful lake view and a calm place to take photos during sunset.",
+      "reviewerName": "Nur Iman",
+    },
+    {
+      "docId": "tasik_review_2",
+      "gemId": "tasik_timah_tasoh",
+      "gemTitle": "Tasik Timah Tasoh",
+      "rating": 4,
+      "review": "The scenery is lovely and suitable for a short relaxing trip.",
+      "reviewerName": "Amir Hakim",
+    },
+    {
+      "docId": "dailyfix_review_1",
+      "gemId": "the_daily_fix_cafe",
+      "gemTitle": "The Daily Fix Cafe",
+      "rating": 5,
+      "review": "The cafe has a cozy heritage vibe and the food was really nice.",
+      "reviewerName": "Mei Ling",
+    },
+    {
+      "docId": "dailyfix_review_2",
+      "gemId": "the_daily_fix_cafe",
+      "gemTitle": "The Daily Fix Cafe",
+      "rating": 4,
+      "review": "Aesthetic place with good desserts, but the waiting time was quite long.",
+      "reviewerName": "Sofia Zain",
+    },
+  ];
+
+  for (final review in reviews) {
+    await FirebaseFirestore.instance
+        .collection("hidden_gem_reviews")
+        .doc(review["docId"].toString())
+        .set({
+      "gemId": review["gemId"],
+      "gemTitle": review["gemTitle"],
+      "rating": review["rating"],
+      "review": review["review"],
+      "reviewerName": review["reviewerName"],
+      "createdAt": FieldValue.serverTimestamp(),
+    });
+  }
+
+  if (!mounted) return;
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text("Dummy reviews added successfully!"),
+    ),
+  );
+}
+
   List<Map<String, dynamic>> getFilteredGems(List<Map<String, dynamic>> gems) {
     return gems.where((gem) {
       final String category = gem["category"] ?? "Uncategorized";
@@ -394,6 +469,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                         ),
                       );
                     },
+                    onLongPress: seedDummyReviews,
                     child: Container(
                       width: 46,
                       height: 46,

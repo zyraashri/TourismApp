@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../screens/hidden_gems/gem_details_page.dart';
 
 class GemCard extends StatelessWidget {
+  final String gemId;
   final String title;
   final String location;
   final String category;
@@ -14,6 +15,7 @@ class GemCard extends StatelessWidget {
 
   const GemCard({
     super.key,
+    required this.gemId,
     required this.title,
     required this.location,
     required this.category,
@@ -59,6 +61,7 @@ class GemCard extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (_) => GemDetailsPage(
+          gemId: gemId,
           title: title,
           location: location,
           category: category,

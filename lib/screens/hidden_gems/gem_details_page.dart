@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'write_review_page.dart';
+
 class GemDetailsPage extends StatefulWidget {
+  final String gemId;
   final String title;
   final String location;
   final String category;
@@ -12,6 +16,7 @@ class GemDetailsPage extends StatefulWidget {
 
   const GemDetailsPage({
     super.key,
+    required this.gemId,
     required this.title,
     required this.location,
     required this.category,
@@ -608,7 +613,17 @@ if (images.length > 1)
 
             if (!widget.isCommunitySubmission)
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => WriteReviewPage(
+        gemId: widget.gemId,
+        gemTitle: widget.title,
+      ),
+    ),
+  );
+},
                 icon: const Icon(
                   Icons.edit,
                   size: 16,
@@ -635,22 +650,53 @@ if (images.length > 1)
             time: "New submission",
           )
         else ...[
-          const ReviewCard(
-            rating: 5,
-            review: "Amazing place",
-            time: "7 hours ago",
-          ),
-          const ReviewCard(
-            rating: 4,
-            review: "Good coffee but limited parking",
-            time: "2 days ago",
-          ),
-          const ReviewCard(
-            rating: 5,
-            review: "Great environment",
-            time: "1 week ago",
-          ),
-        ],
+  const ReviewCard(
+    rating: 5,
+    review: "Amazing place",
+    time: "7 hours ago",
+  ),
+  const ReviewCard(
+    rating: 4,
+    review: "Good coffee but limited parking",
+    time: "2 days ago",
+  ),
+  const ReviewCard(
+    rating: 5,
+    review: "Great environment",
+    time: "1 week ago",
+  ),
+
+  StreamBuilder<QuerySnapshot>(
+    stream: FirebaseFirestore.instance
+        .collection("hidden_gem_reviews")
+        .where("gemId", isEqualTo: widget.gemId)
+        .orderBy("createdAt", descending: true)
+        .snapshots(),
+    builder: (context, snapshot) {
+      if (snapshot.hasError) {
+        return const SizedBox();
+      }
+
+      if (!snapshot.hasData) {
+        return const SizedBox();
+      }
+
+      final reviews = snapshot.data!.docs;
+
+      return Column(
+        children: reviews.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+
+          return ReviewCard(
+            rating: data["rating"] ?? 0,
+            review: data["review"] ?? "",
+            time: "By ${data["reviewerName"] ?? "You"}",
+          );
+        }).toList(),
+      );
+    },
+  ),
+],
       ],
     );
   }

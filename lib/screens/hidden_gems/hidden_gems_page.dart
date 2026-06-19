@@ -25,6 +25,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
 
   final List<Map<String, dynamic>> staticGems = [
     {
+      "gemId": "kopi_hutan_cafe",
       "title": "Kopi Hutan Cafe",
       "location": "Pulau Pinang",
       "category": "Food & Beverages",
@@ -40,6 +41,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
       "isCommunitySubmission": false,
     },
     {
+      "gemId": "tasik_timah_tasoh",
       "title": "Tasik Timah Tasoh",
       "location": "Perlis",
       "category": "Nature",
@@ -55,6 +57,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
       "isCommunitySubmission": false,
     },
     {
+      "gemId": "the_daily_fix_cafe",
       "title": "The Daily Fix Cafe",
       "location": "Melaka",
       "category": "Food & Beverages",
@@ -224,6 +227,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                         getDefaultGalleryByCategory(category);
 
                     communityGems.add({
+                      "gemId": doc.id,
                       "title": data["placeName"] ?? "Untitled Hidden Gem",
                       "location": data["destination"] ?? "Malaysia",
                       "category": category,
@@ -566,6 +570,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
 
   Widget _buildGemCard(Map<String, dynamic> gem) {
     return GemCard(
+      gemId: gem["gemId"],
       title: gem["title"],
       location: gem["location"],
       category: gem["category"],

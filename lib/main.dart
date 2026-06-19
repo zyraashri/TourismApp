@@ -5,13 +5,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:tourismapp/providers/auth_provider.dart';
-import 'package:tourismapp/screens/auth/login_page.dart';
-import 'package:tourismapp/screens/home_page.dart';
+import 'firebase_options.dart';
+import 'providers/auth_provider.dart';
+import 'providers/homedashboard_provider.dart';
+import 'providers/smartcompanion_provider.dart';
+
+import 'screens/auth/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env");
 
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -25,19 +31,25 @@ void main() async {
       ),
     );
   } else {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
-      child: const MyApp(),
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => HomeDashboardProvider()),
+        ChangeNotifierProvider(create: (_) => SmartCompanionProvider()),
+      ],
+      child: const QuestMYApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class QuestMYApp extends StatelessWidget {
+  const QuestMYApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +60,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(),
         scaffoldBackgroundColor: const Color(0xFFFCF8EF),
         primaryColor: const Color(0xFF2E3D39),
+        useMaterial3: true,
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
@@ -57,12 +70,7 @@ class MyApp extends StatelessWidget {
           PointerDeviceKind.stylus,
         },
       ),
-
-      // Keep LoginPage as first page
       home: const LoginPage(),
-
-      // HomePage is imported so Smart Journey page can still be used later
-      // after login/navigation.
     );
   }
 }

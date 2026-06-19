@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"flutter":{"platforms":{"android":{"default":{"projectId":"questmy-56755","appId":"1:116560328450:android:c9e57b50b20df8ebfd341b","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"questmy-56755","configurations":{"android":"1:116560328450:android:c9e57b50b20df8ebfd341b","web":"1:116560328450:web:3caca7c52b3dc380fd341b"}}}}}}
+=======
+{"flutter":{"platforms":{"dart":{"lib/firebase_options.dart":{"projectId":"questmy-56755","configurations":{"android":"1:116560328450:android:c9e57b50b20df8ebfd341b","ios":"1:116560328450:ios:91bdf67ee5114d6bfd341b","macos":"1:116560328450:ios:91bdf67ee5114d6bfd341b","web":"1:116560328450:web:3caca7c52b3dc380fd341b","windows":"1:116560328450:web:e774d2f5389b0641fd341b"}}},"android":{"default":{"projectId":"questmy-56755","appId":"1:116560328450:android:c9e57b50b20df8ebfd341b","fileOutput":"android/app/google-services.json"}}}}}
+>>>>>>> origin/feature/smartcompanion

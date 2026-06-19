@@ -4,43 +4,24 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
     }
+
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for linux.',
         );
       default:
         throw UnsupportedError(
@@ -65,5 +46,37 @@ class DefaultFirebaseOptions {
     messagingSenderId: '116560328450',
     projectId: 'questmy-56755',
     storageBucket: 'questmy-56755.firebasestorage.app',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyAf_MphkJv9VXzfO8GO4BePdabdT-1hdFQ',
+    appId: '1:116560328450:ios:91bdf67ee5114d6bfd341b',
+    messagingSenderId: '116560328450',
+    projectId: 'questmy-56755',
+    storageBucket: 'questmy-56755.firebasestorage.app',
+    iosClientId:
+        '116560328450-vfludutokdlq7fqeelph3mtik770vd3r.apps.googleusercontent.com',
+    iosBundleId: 'com.example.tourismApp',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAf_MphkJv9VXzfO8GO4BePdabdT-1hdFQ',
+    appId: '1:116560328450:ios:91bdf67ee5114d6bfd341b',
+    messagingSenderId: '116560328450',
+    projectId: 'questmy-56755',
+    storageBucket: 'questmy-56755.firebasestorage.app',
+    iosClientId:
+        '116560328450-vfludutokdlq7fqeelph3mtik770vd3r.apps.googleusercontent.com',
+    iosBundleId: 'com.example.tourismApp',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCEvvCvnA2IcAYrdCQjyub9NO-uNvfnCbM',
+    appId: '1:116560328450:web:e774d2f5389b0641fd341b',
+    messagingSenderId: '116560328450',
+    projectId: 'questmy-56755',
+    authDomain: 'questmy-56755.firebaseapp.com',
+    storageBucket: 'questmy-56755.firebasestorage.app',
+    measurementId: 'G-2358E3F7V4',
   );
 }

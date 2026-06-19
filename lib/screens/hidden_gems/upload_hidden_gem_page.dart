@@ -41,9 +41,7 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
   Future<void> selectPhotoSlot() async {
     if (selectedImageBytes.length >= 3) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("You can upload up to 3 photos only"),
-        ),
+        const SnackBar(content: Text("You can upload up to 3 photos only")),
       );
       return;
     }
@@ -75,9 +73,7 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
   Future<void> submitHiddenGem(BuildContext context) async {
     if (selectedImageBytes.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please upload at least one photo"),
-        ),
+        const SnackBar(content: Text("Please upload at least one photo")),
       );
       return;
     }
@@ -87,28 +83,28 @@ class _UploadHiddenGemPageState extends State<UploadHiddenGemPage> {
     });
 
     try {
-await FirebaseFirestore.instance.collection("hidden_gems").add({
-  "placeName": widget.placeName,
-  "destination": widget.destination,
-  "category": widget.category,
-  "description": widget.description,
+      await FirebaseFirestore.instance.collection("hidden_gems").add({
+        "placeName": widget.placeName,
+        "destination": widget.destination,
+        "category": widget.category,
+        "description": widget.description,
 
-  // Review/rating fields
-  "rating": widget.rating,
-  "reviewCount": 1,
+        // Review/rating fields
+        "rating": widget.rating,
+        "reviewCount": 1,
 
-  // Submission status
-  "status": "pending",
+        // Submission status
+        "status": "pending",
 
-  // Photo submission info
-  "hasPhoto": true,
-  "photoCount": selectedImageBytes.length,
-  "photoNames": selectedImageNames,
-  "photoStatus": "selected",
+        // Photo submission info
+        "hasPhoto": true,
+        "photoCount": selectedImageBytes.length,
+        "photoNames": selectedImageNames,
+        "photoStatus": "selected",
 
-  // Date
-  "createdAt": FieldValue.serverTimestamp(),
-});
+        // Date
+        "createdAt": FieldValue.serverTimestamp(),
+      });
 
       if (!context.mounted) return;
 
@@ -126,10 +122,7 @@ await FirebaseFirestore.instance.collection("hidden_gems").add({
             ),
             title: const Row(
               children: [
-                Icon(
-                  Icons.check_circle,
-                  color: primaryColor,
-                ),
+                Icon(Icons.check_circle, color: primaryColor),
                 SizedBox(width: 8),
                 Text(
                   "Submitted!",
@@ -141,19 +134,14 @@ await FirebaseFirestore.instance.collection("hidden_gems").add({
               ],
             ),
             content: Text(
-"${widget.placeName} has been submitted successfully with ${selectedImageBytes.length} photo(s).",              style: const TextStyle(
-                color: textGrey,
-                height: 1.4,
-              ),
+              "${widget.placeName} has been submitted successfully with ${selectedImageBytes.length} photo(s).",
+              style: const TextStyle(color: textGrey, height: 1.4),
             ),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  Navigator.popUntil(
-                    context,
-                    (route) => route.isFirst,
-                  );
+                  Navigator.popUntil(context, (route) => route.isFirst);
                 },
                 child: const Text(
                   "Back to Hidden Gems",
@@ -175,9 +163,7 @@ await FirebaseFirestore.instance.collection("hidden_gems").add({
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Failed to submit hidden gem: $error"),
-        ),
+        SnackBar(content: Text("Failed to submit hidden gem: $error")),
       );
     }
   }
@@ -197,10 +183,7 @@ await FirebaseFirestore.instance.collection("hidden_gems").add({
                   CircleAvatar(
                     backgroundColor: Colors.white,
                     child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: darkColor,
-                      ),
+                      icon: const Icon(Icons.arrow_back, color: darkColor),
                       onPressed: isSubmitting
                           ? null
                           : () {
@@ -243,10 +226,7 @@ await FirebaseFirestore.instance.collection("hidden_gems").add({
 
                     const Text(
                       "Upload photos to help other travellers discover this hidden gem.",
-                      style: TextStyle(
-                        color: textGrey,
-                        height: 1.4,
-                      ),
+                      style: TextStyle(color: textGrey, height: 1.4),
                     ),
 
                     const SizedBox(height: 24),
@@ -274,10 +254,7 @@ await FirebaseFirestore.instance.collection("hidden_gems").add({
                               color: primaryColor.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(14),
                             ),
-                            child: const Icon(
-                              Icons.place,
-                              color: primaryColor,
-                            ),
+                            child: const Icon(Icons.place, color: primaryColor),
                           ),
 
                           const SizedBox(width: 14),
@@ -306,23 +283,23 @@ await FirebaseFirestore.instance.collection("hidden_gems").add({
                                 ),
                                 const SizedBox(height: 5),
 
-Row(
-  children: [
-    const Icon(
-      Icons.star,
-      color: Colors.amber,
-      size: 15,
-    ),
-    const SizedBox(width: 4),
-    Text(
-      widget.rating.toStringAsFixed(1),
-      style: const TextStyle(
-        color: textGrey,
-        fontSize: 13,
-      ),
-    ),
-  ],
-),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                      size: 15,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      widget.rating.toStringAsFixed(1),
+                                      style: const TextStyle(
+                                        color: textGrey,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -435,10 +412,7 @@ Row(
                       ),
                       child: const Row(
                         children: [
-                          Icon(
-                            Icons.info_outline,
-                            color: darkColor,
-                          ),
+                          Icon(Icons.info_outline, color: darkColor),
 
                           SizedBox(width: 10),
 

@@ -57,16 +57,16 @@ class _AddHiddenGemPageState extends State<AddHiddenGemPage> {
 
   void goToUploadPage() {
     if (placeNameController.text.isEmpty ||
-    selectedDestination == null ||
-    descriptionController.text.isEmpty ||
-    selectedRating == 0) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      content: Text("Please complete all fields and add your rating"),
-    ),
-  );
-  return;
-}
+        selectedDestination == null ||
+        descriptionController.text.isEmpty ||
+        selectedRating == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please complete all fields and add your rating"),
+        ),
+      );
+      return;
+    }
 
     Navigator.push(
       context,
@@ -115,10 +115,7 @@ class _AddHiddenGemPageState extends State<AddHiddenGemPage> {
                       CircleAvatar(
                         backgroundColor: Colors.white,
                         child: IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: darkColor,
-                          ),
+                          icon: const Icon(Icons.arrow_back, color: darkColor),
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -200,10 +197,7 @@ class _AddHiddenGemPageState extends State<AddHiddenGemPage> {
 
                           const Text(
                             "Fill in the basic information about this hidden gem.",
-                            style: TextStyle(
-                              color: textGrey,
-                              fontSize: 13,
-                            ),
+                            style: TextStyle(color: textGrey, fontSize: 13),
                           ),
 
                           const SizedBox(height: 22),
@@ -273,8 +267,8 @@ class _AddHiddenGemPageState extends State<AddHiddenGemPage> {
 
                     const SizedBox(height: 18),
 
-_buildLabel("Your Rating"),
-_buildStarRating(),
+                    _buildLabel("Your Rating"),
+                    _buildStarRating(),
 
                     const SizedBox(height: 22),
 
@@ -287,10 +281,7 @@ _buildStarRating(),
                       ),
                       child: const Row(
                         children: [
-                          Icon(
-                            Icons.lightbulb_outline,
-                            color: darkColor,
-                          ),
+                          Icon(Icons.lightbulb_outline, color: darkColor),
 
                           SizedBox(width: 10),
 
@@ -366,15 +357,9 @@ _buildStarRating(),
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        prefixIcon: Icon(
-          icon,
-          color: primaryColor,
-        ),
+        prefixIcon: Icon(icon, color: primaryColor),
         hintText: hintText,
-        hintStyle: const TextStyle(
-          color: textGrey,
-          fontSize: 13,
-        ),
+        hintStyle: const TextStyle(color: textGrey, fontSize: 13),
         filled: true,
         fillColor: const Color(0xFFF1F0EA),
         contentPadding: const EdgeInsets.symmetric(
@@ -401,16 +386,10 @@ _buildStarRating(),
       isExpanded: true,
       hint: Text(
         hintText,
-        style: const TextStyle(
-          color: textGrey,
-          fontSize: 13,
-        ),
+        style: const TextStyle(color: textGrey, fontSize: 13),
       ),
       decoration: InputDecoration(
-        prefixIcon: Icon(
-          icon,
-          color: primaryColor,
-        ),
+        prefixIcon: Icon(icon, color: primaryColor),
         filled: true,
         fillColor: const Color(0xFFF1F0EA),
         contentPadding: const EdgeInsets.symmetric(
@@ -425,10 +404,7 @@ _buildStarRating(),
       items: items.map((item) {
         return DropdownMenuItem(
           value: item,
-          child: Text(
-            item,
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: Text(item, overflow: TextOverflow.ellipsis),
         );
       }).toList(),
       onChanged: onChanged,
@@ -436,24 +412,24 @@ _buildStarRating(),
   }
 
   Widget _buildStarRating() {
-  return Row(
-    children: List.generate(5, (index) {
-      final int starNumber = index + 1;
-      final bool isSelected = starNumber <= selectedRating;
+    return Row(
+      children: List.generate(5, (index) {
+        final int starNumber = index + 1;
+        final bool isSelected = starNumber <= selectedRating;
 
-      return GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedRating = starNumber;
-          });
-        },
-        child: Icon(
-          isSelected ? Icons.star : Icons.star_border,
-          color: Colors.amber,
-          size: 34,
-        ),
-      );
-    }),
-  );
-}
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedRating = starNumber;
+            });
+          },
+          child: Icon(
+            isSelected ? Icons.star : Icons.star_border,
+            color: Colors.amber,
+            size: 34,
+          ),
+        );
+      }),
+    );
+  }
 }

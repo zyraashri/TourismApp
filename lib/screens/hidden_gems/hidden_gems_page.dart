@@ -259,86 +259,255 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
   }
 
   Future<void> seedSampleHiddenGems() async {
-    final sampleGems = [
-      {
-        "docId": "sample_rumah_penghulu_abu_seman",
-        "placeName": "Rumah Penghulu Abu Seman",
-        "destination": "Kuala Lumpur",
-        "category": "Culture",
-        "description":
-            "A traditional Malay heritage house that showcases classic architecture, cultural history, and a peaceful learning experience in the middle of the city.",
-        "rating": 5.0,
-        "photoNames": ["rumah_penghulu_sample.jpg"],
-      },
-      {
-        "docId": "sample_kampung_morten",
-        "placeName": "Kampung Morten",
-        "destination": "Melaka",
-        "category": "Culture",
-        "description":
-            "A charming traditional village surrounded by heritage homes, local stories, and beautiful night views along the Melaka River.",
-        "rating": 4.0,
-        "photoNames": ["kampung_morten_sample.jpg"],
-      },
-      {
-        "docId": "sample_bukit_panorama",
-        "placeName": "Bukit Panorama",
-        "destination": "Pahang",
-        "category": "Scenic Views",
-        "description":
-            "A peaceful hiking spot with wide sunrise views, fresh morning air, and a beautiful landscape that is perfect for photography lovers.",
-        "rating": 5.0,
-        "photoNames": ["bukit_panorama_sample.jpg"],
-      },
-      {
-        "docId": "sample_pantai_klebang_sand_dunes",
-        "placeName": "Pantai Klebang Sand Dunes",
-        "destination": "Melaka",
-        "category": "Scenic Views",
-        "description":
-            "A unique sandy landscape near the coast, popular for sunset photos, open scenery, and a relaxing outdoor experience.",
-        "rating": 4.0,
-        "photoNames": ["pantai_klebang_sample.jpg"],
-      },
-      {
-        "docId": "sample_lata_iskandar_waterfall",
-        "placeName": "Lata Iskandar Waterfall",
-        "destination": "Perak",
-        "category": "Nature",
-        "description":
-            "A refreshing waterfall surrounded by greenery, perfect for a short nature stop, peaceful views, and relaxing sounds of flowing water.",
-        "rating": 5.0,
-        "photoNames": ["lata_iskandar_sample.jpg"],
-      },
-    ];
+  final sampleGems = [
+    {
+      "docId": "sample_rumahpenghulu",
+      "placeName": "Rumah Penghulu Abu Seman",
+      "destination": "Kuala Lumpur",
+      "category": "Culture",
+      "description":
+          "A traditional Malay heritage house that showcases classic architecture, cultural history, and a peaceful learning experience in the middle of the city.",
+      "rating": 5.0,
+      "imagePath": "assets/images/rumahpenghulu.jpg",
+      "galleryImages": [
+        "assets/images/rumahpenghulu.jpg",
+        "assets/images/rumahpenghulu2.jpg",
+        "assets/images/rumahpenghulu3.jpg",
+      ],
+      "photoNames": [
+        "rumahpenghulu.jpg",
+        "rumahpenghulu2.jpg",
+        "rumahpenghulu3.jpg",
+      ],
+    },
+    {
+      "docId": "sample_kampungmorten",
+      "placeName": "Kampung Morten",
+      "destination": "Melaka",
+      "category": "Culture",
+      "description":
+          "A charming traditional village surrounded by heritage homes, local stories, and beautiful night views along the Melaka River.",
+      "rating": 4.0,
+      "imagePath": "assets/images/kampungmorten.jpg",
+      "galleryImages": [
+        "assets/images/kampungmorten.jpg",
+        "assets/images/kampungmorten2.jpg",
+        "assets/images/kampungmorten3.jpg",
+      ],
+      "photoNames": [
+        "kampungmorten.jpg",
+        "kampungmorten2.jpg",
+        "kampungmorten3.jpg",
+      ],
+    },
+    {
+      "docId": "sample_panorama",
+      "placeName": "Bukit Panorama",
+      "destination": "Pahang",
+      "category": "Scenic Views",
+      "description":
+          "A peaceful hiking spot with wide sunrise views, fresh morning air, and a beautiful landscape that is perfect for photography lovers.",
+      "rating": 5.0,
+      "imagePath": "assets/images/panorama.jpg",
+      "galleryImages": [
+        "assets/images/panorama.jpg",
+        "assets/images/panorama2.jpg",
+        "assets/images/panorama3.jpg",
+      ],
+      "photoNames": [
+        "panorama.jpg",
+        "panorama2.jpg",
+        "panorama3.jpg",
+      ],
+    },
+    {
+      "docId": "sample_pantaiklebang",
+      "placeName": "Pantai Klebang",
+      "destination": "Melaka",
+      "category": "Scenic Views",
+      "description":
+          "A unique sandy landscape near the coast, popular for sunset photos, open scenery, and a relaxing outdoor experience.",
+      "rating": 4.0,
+      "imagePath": "assets/images/pantaiklebang.jpg",
+      "galleryImages": [
+        "assets/images/pantaiklebang.jpg",
+        "assets/images/pantaiklebang2.jpg",
+        "assets/images/pantaiklebang3.jpg",
+      ],
+      "photoNames": [
+        "pantaiklebang.jpg",
+        "pantaiklebang2.jpg",
+        "pantaiklebang3.jpg",
+      ],
+    },
+    {
+      "docId": "sample_lata",
+      "placeName": "Lata Iskandar Waterfall",
+      "destination": "Perak",
+      "category": "Nature",
+      "description":
+          "A refreshing waterfall surrounded by greenery, perfect for a short nature stop, peaceful views, and relaxing sounds of flowing water.",
+      "rating": 5.0,
+      "imagePath": "assets/images/lata.jpg",
+      "galleryImages": [
+        "assets/images/lata.jpg",
+        "assets/images/lata2.jpg",
+        "assets/images/lata3.jpg",
+      ],
+      "photoNames": [
+        "lata.jpg",
+        "lata2.jpg",
+        "lata3.jpg",
+      ],
+    },
+  ];
 
-    for (final gem in sampleGems) {
-      await FirebaseFirestore.instance
-          .collection("hidden_gems")
-          .doc(gem["docId"].toString())
-          .set({
-            "placeName": gem["placeName"],
-            "destination": gem["destination"],
-            "category": gem["category"],
-            "description": gem["description"],
-            "rating": gem["rating"],
-            "reviewCount": 1,
-            "status": "approved",
-            "hasPhoto": true,
-            "photoCount": 1,
-            "photoNames": gem["photoNames"],
-            "photoStatus": "sample",
-            "createdAt": FieldValue.serverTimestamp(),
-          });
-    }
-
-    if (!mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Sample hidden gems added successfully!")),
-    );
+  for (final gem in sampleGems) {
+    await FirebaseFirestore.instance
+        .collection("hidden_gems")
+        .doc(gem["docId"].toString())
+        .set({
+      "placeName": gem["placeName"],
+      "destination": gem["destination"],
+      "category": gem["category"],
+      "description": gem["description"],
+      "rating": gem["rating"],
+      "imagePath": gem["imagePath"],
+      "galleryImages": gem["galleryImages"],
+      "reviewCount": 1,
+      "status": "approved",
+      "hasPhoto": true,
+      "photoCount": 3,
+      "photoNames": gem["photoNames"],
+      "photoStatus": "sample",
+      "createdAt": FieldValue.serverTimestamp(),
+    });
   }
 
+  if (!mounted) return;
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text("Sample hidden gems added successfully!"),
+    ),
+  );
+}
+Future<void> seedSampleGemReviews() async {
+  final reviews = [
+    {
+      "docId": "rumahpenghulu_review_1",
+      "gemId": "sample_rumahpenghulu",
+      "gemTitle": "Rumah Penghulu Abu Seman",
+      "rating": 5,
+      "review":
+          "A beautiful traditional house with strong cultural value and peaceful surroundings.",
+      "reviewerName": "Aina Rahman",
+    },
+    {
+      "docId": "rumahpenghulu_review_2",
+      "gemId": "sample_rumahpenghulu",
+      "gemTitle": "Rumah Penghulu Abu Seman",
+      "rating": 4,
+      "review":
+          "Interesting place to learn about Malay architecture and heritage.",
+      "reviewerName": "Hakim Zain",
+    },
+    {
+      "docId": "kampungmorten_review_1",
+      "gemId": "sample_kampungmorten",
+      "gemTitle": "Kampung Morten",
+      "rating": 4,
+      "review":
+          "The village has a charming heritage atmosphere, especially in the evening.",
+      "reviewerName": "Sofia Amir",
+    },
+    {
+      "docId": "kampungmorten_review_2",
+      "gemId": "sample_kampungmorten",
+      "gemTitle": "Kampung Morten",
+      "rating": 5,
+      "review":
+          "A lovely cultural stop with traditional houses and beautiful river views.",
+      "reviewerName": "Daniel Lee",
+    },
+    {
+      "docId": "panorama_review_1",
+      "gemId": "sample_panorama",
+      "gemTitle": "Bukit Panorama",
+      "rating": 5,
+      "review":
+          "The sunrise view was amazing and worth the early morning hike.",
+      "reviewerName": "Nur Iman",
+    },
+    {
+      "docId": "panorama_review_2",
+      "gemId": "sample_panorama",
+      "gemTitle": "Bukit Panorama",
+      "rating": 5,
+      "review":
+          "Perfect place for nature lovers and photography. The scenery is stunning.",
+      "reviewerName": "Amir Hakim",
+    },
+    {
+      "docId": "pantaiklebang_review_1",
+      "gemId": "sample_pantaiklebang",
+      "gemTitle": "Pantai Klebang Sand Dunes",
+      "rating": 4,
+      "review":
+          "Unique sandy landscape and a nice place for sunset photos.",
+      "reviewerName": "Mei Ling",
+    },
+    {
+      "docId": "pantaiklebang_review_2",
+      "gemId": "sample_pantaiklebang",
+      "gemTitle": "Pantai Klebang Sand Dunes",
+      "rating": 5,
+      "review":
+          "The view is beautiful and different from usual beach spots in Melaka.",
+      "reviewerName": "Farah Nabila",
+    },
+    {
+      "docId": "lata_review_1",
+      "gemId": "sample_lata",
+      "gemTitle": "Lata Iskandar Waterfall",
+      "rating": 5,
+      "review":
+          "Refreshing waterfall with peaceful nature sounds and cool air.",
+      "reviewerName": "Adam Danish",
+    },
+    {
+      "docId": "lata_review_2",
+      "gemId": "sample_lata",
+      "gemTitle": "Lata Iskandar Waterfall",
+      "rating": 4,
+      "review":
+          "Nice place for a short nature stop. The waterfall view is relaxing.",
+      "reviewerName": "Irdina Maisarah",
+    },
+  ];
+
+  for (final review in reviews) {
+    await FirebaseFirestore.instance
+        .collection("hidden_gem_reviews")
+        .doc(review["docId"].toString())
+        .set({
+      "gemId": review["gemId"],
+      "gemTitle": review["gemTitle"],
+      "rating": review["rating"],
+      "review": review["review"],
+      "reviewerName": review["reviewerName"],
+      "createdAt": FieldValue.serverTimestamp(),
+    });
+  }
+
+  if (!mounted) return;
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text("Sample hidden gem reviews added successfully!"),
+    ),
+  );
+}
   List<Map<String, dynamic>> getFilteredGems(List<Map<String, dynamic>> gems) {
     return gems.where((gem) {
       final String category = gem["category"] ?? "Uncategorized";
@@ -374,29 +543,35 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
 
                 final List<Map<String, dynamic>> communityGems = [];
 
-                if (snapshot.hasData) {
-                  for (final doc in snapshot.data!.docs) {
-                    final data = doc.data() as Map<String, dynamic>;
+if (snapshot.hasData) {
+  for (final doc in snapshot.data!.docs) {
+    final data = doc.data() as Map<String, dynamic>;
 
-                    final String category = data["category"] ?? "Uncategorized";
+    final String category = data["category"] ?? "Uncategorized";
 
-                    final List<String> galleryImages =
-                        getDefaultGalleryByCategory(category);
+    List<String> galleryImages = getDefaultGalleryByCategory(category);
 
-                    communityGems.add({
-                      "gemId": doc.id,
-                      "title": data["placeName"] ?? "Untitled Hidden Gem",
-                      "location": data["destination"] ?? "Malaysia",
-                      "category": category,
-                      "description":
-                          data["description"] ?? "No description provided yet.",
-                      "rating": getRating(data["rating"]),
-                      "imagePath": galleryImages.first,
-                      "galleryImages": galleryImages,
-                      "isCommunitySubmission": true,
-                    });
-                  }
-                }
+    if (data["galleryImages"] is List &&
+        (data["galleryImages"] as List).isNotEmpty) {
+      galleryImages = List<String>.from(data["galleryImages"]);
+    }
+
+    final String imagePath =
+        data["imagePath"]?.toString() ?? galleryImages.first;
+
+    communityGems.add({
+      "gemId": doc.id,
+      "title": data["placeName"] ?? "Untitled Hidden Gem",
+      "location": data["destination"] ?? "Malaysia",
+      "category": category,
+      "description": data["description"] ?? "No description provided yet.",
+      "rating": getRating(data["rating"]),
+      "imagePath": imagePath,
+      "galleryImages": galleryImages,
+      "isCommunitySubmission": true,
+    });
+  }
+}
 
                 final List<Map<String, dynamic>> filteredStaticGems =
                     getFilteredGems(staticGems);
@@ -543,7 +718,6 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                         ),
                       );
                     },
-                      onDoubleTap: seedSampleHiddenGems,
                     child: Container(
                       width: 46,
                       height: 46,

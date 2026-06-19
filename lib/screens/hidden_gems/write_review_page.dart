@@ -35,9 +35,7 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
   Future<void> submitReview() async {
     if (selectedRating == 0 || reviewController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please add your rating and review"),
-        ),
+        const SnackBar(content: Text("Please add your rating and review")),
       );
       return;
     }
@@ -63,9 +61,7 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Review submitted successfully!"),
-        ),
+        const SnackBar(content: Text("Review submitted successfully!")),
       );
 
       Navigator.pop(context);
@@ -77,9 +73,7 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Failed to submit review: $error"),
-        ),
+        SnackBar(content: Text("Failed to submit review: $error")),
       );
     }
   }
@@ -98,10 +92,7 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
                   CircleAvatar(
                     backgroundColor: Colors.white,
                     child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: darkColor,
-                      ),
+                      icon: const Icon(Icons.arrow_back, color: darkColor),
                       onPressed: isSubmitting
                           ? null
                           : () {
@@ -245,10 +236,7 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
                       ),
                       child: const Row(
                         children: [
-                          Icon(
-                            Icons.info_outline,
-                            color: darkColor,
-                          ),
+                          Icon(Icons.info_outline, color: darkColor),
                           SizedBox(width: 10),
                           Expanded(
                             child: Text(

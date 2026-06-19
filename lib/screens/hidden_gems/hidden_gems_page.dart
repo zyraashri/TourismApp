@@ -180,79 +180,164 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
   }
 
   Future<void> seedDummyReviews() async {
-  final reviews = [
-    {
-      "docId": "kopi_review_1",
-      "gemId": "kopi_hutan_cafe",
-      "gemTitle": "Kopi Hutan Cafe",
-      "rating": 5,
-      "review": "The coffee was great and the forest view made it feel relaxing.",
-      "reviewerName": "Aina Rahman",
-    },
-    {
-      "docId": "kopi_review_2",
-      "gemId": "kopi_hutan_cafe",
-      "gemTitle": "Kopi Hutan Cafe",
-      "rating": 4,
-      "review": "Nice hidden cafe, but it can get a bit crowded during weekends.",
-      "reviewerName": "Daniel Lee",
-    },
-    {
-      "docId": "tasik_review_1",
-      "gemId": "tasik_timah_tasoh",
-      "gemTitle": "Tasik Timah Tasoh",
-      "rating": 5,
-      "review": "Beautiful lake view and a calm place to take photos during sunset.",
-      "reviewerName": "Nur Iman",
-    },
-    {
-      "docId": "tasik_review_2",
-      "gemId": "tasik_timah_tasoh",
-      "gemTitle": "Tasik Timah Tasoh",
-      "rating": 4,
-      "review": "The scenery is lovely and suitable for a short relaxing trip.",
-      "reviewerName": "Amir Hakim",
-    },
-    {
-      "docId": "dailyfix_review_1",
-      "gemId": "the_daily_fix_cafe",
-      "gemTitle": "The Daily Fix Cafe",
-      "rating": 5,
-      "review": "The cafe has a cozy heritage vibe and the food was really nice.",
-      "reviewerName": "Mei Ling",
-    },
-    {
-      "docId": "dailyfix_review_2",
-      "gemId": "the_daily_fix_cafe",
-      "gemTitle": "The Daily Fix Cafe",
-      "rating": 4,
-      "review": "Aesthetic place with good desserts, but the waiting time was quite long.",
-      "reviewerName": "Sofia Zain",
-    },
-  ];
+    final reviews = [
+      {
+        "docId": "kopi_review_1",
+        "gemId": "kopi_hutan_cafe",
+        "gemTitle": "Kopi Hutan Cafe",
+        "rating": 5,
+        "review":
+            "The coffee was great and the forest view made it feel relaxing.",
+        "reviewerName": "Aina Rahman",
+      },
+      {
+        "docId": "kopi_review_2",
+        "gemId": "kopi_hutan_cafe",
+        "gemTitle": "Kopi Hutan Cafe",
+        "rating": 4,
+        "review":
+            "Nice hidden cafe, but it can get a bit crowded during weekends.",
+        "reviewerName": "Daniel Lee",
+      },
+      {
+        "docId": "tasik_review_1",
+        "gemId": "tasik_timah_tasoh",
+        "gemTitle": "Tasik Timah Tasoh",
+        "rating": 5,
+        "review":
+            "Beautiful lake view and a calm place to take photos during sunset.",
+        "reviewerName": "Nur Iman",
+      },
+      {
+        "docId": "tasik_review_2",
+        "gemId": "tasik_timah_tasoh",
+        "gemTitle": "Tasik Timah Tasoh",
+        "rating": 4,
+        "review":
+            "The scenery is lovely and suitable for a short relaxing trip.",
+        "reviewerName": "Amir Hakim",
+      },
+      {
+        "docId": "dailyfix_review_1",
+        "gemId": "the_daily_fix_cafe",
+        "gemTitle": "The Daily Fix Cafe",
+        "rating": 5,
+        "review":
+            "The cafe has a cozy heritage vibe and the food was really nice.",
+        "reviewerName": "Mei Ling",
+      },
+      {
+        "docId": "dailyfix_review_2",
+        "gemId": "the_daily_fix_cafe",
+        "gemTitle": "The Daily Fix Cafe",
+        "rating": 4,
+        "review":
+            "Aesthetic place with good desserts, but the waiting time was quite long.",
+        "reviewerName": "Sofia Zain",
+      },
+    ];
 
-  for (final review in reviews) {
-    await FirebaseFirestore.instance
-        .collection("hidden_gem_reviews")
-        .doc(review["docId"].toString())
-        .set({
-      "gemId": review["gemId"],
-      "gemTitle": review["gemTitle"],
-      "rating": review["rating"],
-      "review": review["review"],
-      "reviewerName": review["reviewerName"],
-      "createdAt": FieldValue.serverTimestamp(),
-    });
+    for (final review in reviews) {
+      await FirebaseFirestore.instance
+          .collection("hidden_gem_reviews")
+          .doc(review["docId"].toString())
+          .set({
+            "gemId": review["gemId"],
+            "gemTitle": review["gemTitle"],
+            "rating": review["rating"],
+            "review": review["review"],
+            "reviewerName": review["reviewerName"],
+            "createdAt": FieldValue.serverTimestamp(),
+          });
+    }
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Dummy reviews added successfully!")),
+    );
   }
 
-  if (!mounted) return;
+  Future<void> seedSampleHiddenGems() async {
+    final sampleGems = [
+      {
+        "docId": "sample_rumah_penghulu_abu_seman",
+        "placeName": "Rumah Penghulu Abu Seman",
+        "destination": "Kuala Lumpur",
+        "category": "Culture",
+        "description":
+            "A traditional Malay heritage house that showcases classic architecture, cultural history, and a peaceful learning experience in the middle of the city.",
+        "rating": 5.0,
+        "photoNames": ["rumah_penghulu_sample.jpg"],
+      },
+      {
+        "docId": "sample_kampung_morten",
+        "placeName": "Kampung Morten",
+        "destination": "Melaka",
+        "category": "Culture",
+        "description":
+            "A charming traditional village surrounded by heritage homes, local stories, and beautiful night views along the Melaka River.",
+        "rating": 4.0,
+        "photoNames": ["kampung_morten_sample.jpg"],
+      },
+      {
+        "docId": "sample_bukit_panorama",
+        "placeName": "Bukit Panorama",
+        "destination": "Pahang",
+        "category": "Scenic Views",
+        "description":
+            "A peaceful hiking spot with wide sunrise views, fresh morning air, and a beautiful landscape that is perfect for photography lovers.",
+        "rating": 5.0,
+        "photoNames": ["bukit_panorama_sample.jpg"],
+      },
+      {
+        "docId": "sample_pantai_klebang_sand_dunes",
+        "placeName": "Pantai Klebang Sand Dunes",
+        "destination": "Melaka",
+        "category": "Scenic Views",
+        "description":
+            "A unique sandy landscape near the coast, popular for sunset photos, open scenery, and a relaxing outdoor experience.",
+        "rating": 4.0,
+        "photoNames": ["pantai_klebang_sample.jpg"],
+      },
+      {
+        "docId": "sample_lata_iskandar_waterfall",
+        "placeName": "Lata Iskandar Waterfall",
+        "destination": "Perak",
+        "category": "Nature",
+        "description":
+            "A refreshing waterfall surrounded by greenery, perfect for a short nature stop, peaceful views, and relaxing sounds of flowing water.",
+        "rating": 5.0,
+        "photoNames": ["lata_iskandar_sample.jpg"],
+      },
+    ];
 
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      content: Text("Dummy reviews added successfully!"),
-    ),
-  );
-}
+    for (final gem in sampleGems) {
+      await FirebaseFirestore.instance
+          .collection("hidden_gems")
+          .doc(gem["docId"].toString())
+          .set({
+            "placeName": gem["placeName"],
+            "destination": gem["destination"],
+            "category": gem["category"],
+            "description": gem["description"],
+            "rating": gem["rating"],
+            "reviewCount": 1,
+            "status": "approved",
+            "hasPhoto": true,
+            "photoCount": 1,
+            "photoNames": gem["photoNames"],
+            "photoStatus": "sample",
+            "createdAt": FieldValue.serverTimestamp(),
+          });
+    }
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Sample hidden gems added successfully!")),
+    );
+  }
 
   List<Map<String, dynamic>> getFilteredGems(List<Map<String, dynamic>> gems) {
     return gems.where((gem) {
@@ -279,9 +364,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
-                    ),
+                    child: CircularProgressIndicator(color: primaryColor),
                   );
                 }
 
@@ -295,8 +378,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                   for (final doc in snapshot.data!.docs) {
                     final data = doc.data() as Map<String, dynamic>;
 
-                    final String category =
-                        data["category"] ?? "Uncategorized";
+                    final String category = data["category"] ?? "Uncategorized";
 
                     final List<String> galleryImages =
                         getDefaultGalleryByCategory(category);
@@ -407,10 +489,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            Color.fromARGB(255, 159, 153, 131),
-            headerColor,
-          ],
+          colors: [Color.fromARGB(255, 159, 153, 131), headerColor],
         ),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(32),
@@ -433,8 +512,6 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
             children: [
               Row(
                 children: [
-
-
                   const Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -451,10 +528,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                         SizedBox(height: 3),
                         Text(
                           "Discover local places worth exploring",
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: darkColor,
-                          ),
+                          style: TextStyle(fontSize: 13, color: darkColor),
                         ),
                       ],
                     ),
@@ -469,7 +543,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                         ),
                       );
                     },
-                    onLongPress: seedDummyReviews,
+                      onDoubleTap: seedSampleHiddenGems,
                     child: Container(
                       width: 46,
                       height: 46,
@@ -503,16 +577,10 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                       color: Colors.grey.shade600,
                       fontSize: 13,
                     ),
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: primaryColor,
-                    ),
+                    prefixIcon: const Icon(Icons.search, color: primaryColor),
                     suffixIcon: searchQuery.isNotEmpty
                         ? IconButton(
-                            icon: const Icon(
-                              Icons.close,
-                              color: textGrey,
-                            ),
+                            icon: const Icon(Icons.close, color: textGrey),
                             onPressed: () {
                               searchController.clear();
                             },
@@ -545,7 +613,10 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
                       Icons.restaurant_outlined,
                     ),
                     _buildCategoryChip("Culture", Icons.museum_outlined),
-                    _buildCategoryChip("Scenic Views", Icons.landscape_outlined),
+                    _buildCategoryChip(
+                      "Scenic Views",
+                      Icons.landscape_outlined,
+                    ),
                   ],
                 ),
               ),
@@ -568,10 +639,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         margin: const EdgeInsets.only(right: 10),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 10,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected ? primaryColor : Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -606,10 +674,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
     );
   }
 
-  Widget _buildSectionTitle({
-    required String title,
-    required String subtitle,
-  }) {
+  Widget _buildSectionTitle({required String title, required String subtitle}) {
     return Row(
       children: [
         Expanded(
@@ -623,10 +688,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 6,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
             color: primaryColor.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(14),
@@ -694,10 +756,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
           const Text(
             "Try another keyword or category.",
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: textGrey,
-              fontSize: 13,
-            ),
+            style: TextStyle(color: textGrey, fontSize: 13),
           ),
         ],
       ),
@@ -711,10 +770,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
         child: Text(
           "Unable to load hidden gems: $error",
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.red,
-            fontSize: 13,
-          ),
+          style: const TextStyle(color: Colors.red, fontSize: 13),
         ),
       ),
     );

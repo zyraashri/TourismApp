@@ -10,9 +10,7 @@ import 'screens/hidden_gems/hidden_gems_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MyApp());
 }
@@ -22,25 +20,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-return MaterialApp(
-  debugShowCheckedModeBanner: false,
-  title: 'QuestMY',
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'QuestMY',
 
-  theme: ThemeData(
-    textTheme: GoogleFonts.poppinsTextTheme(),
-    scaffoldBackgroundColor: const Color(0xFFFCF8EF),
-  ),
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+        scaffoldBackgroundColor: const Color(0xFFFCF8EF),
+      ),
 
-  scrollBehavior: const MaterialScrollBehavior().copyWith(
-    dragDevices: {
-      PointerDeviceKind.touch,
-      PointerDeviceKind.mouse,
-      PointerDeviceKind.trackpad,
-      PointerDeviceKind.stylus,
-    },
-  ),
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.trackpad,
+          PointerDeviceKind.stylus,
+        },
+      ),
 
-  home: const HiddenGemsPage(),
-);
+      home: const HiddenGemsPage(),
+    );
   }
 }

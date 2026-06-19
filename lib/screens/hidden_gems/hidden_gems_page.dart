@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/gem_card.dart';
+import 'add_hidden_gem_page.dart';
 
 class HiddenGemsPage extends StatefulWidget {
   const HiddenGemsPage({super.key});
@@ -66,7 +67,14 @@ class _HiddenGemsPageState
                     ),
 
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const AddHiddenGemPage(),
+    ),
+  );
+},
                       icon: const Icon(
                         Icons.add,
                         size: 30,

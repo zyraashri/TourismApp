@@ -144,19 +144,26 @@ class _HiddenGemsPageState
                   rating: 4.7,
                   imagePath:
                       "assets/images/tasiktimah.jpg",
+                  galleryImages: [
+    "assets/images/tasiktimah.jpg",
+    "assets/images/tasiktimah2.jpg",
+    "assets/images/tasiktimah3.jpg",
+  ],
                 ),
 
                 GemCard(
-                  title:
-                      "Kopi Hutan Cafe",
-                  location: "Penang",
-                  description:
-                      "A hidden gem café surrounded by nature and great coffee.",
-                  rating: 5.0,
-                  imagePath:
-                      "assets/images/kopihutan.jpg",
-                ),
-
+  title: "Kopi Hutan Cafe",
+  location: "Penang",
+  description:
+      "A hidden gem café surrounded by nature and great coffee.",
+  rating: 5.0,
+  imagePath: "assets/images/kopihutan.jpg",
+  galleryImages: [
+    "assets/images/kopihutan.jpg",
+    "assets/images/kopihutan2.jpg",
+    "assets/images/kopihutan3.jpg",
+  ],
+),
                 GemCard(
                   title:
                       "The Daily Fix",
@@ -166,6 +173,11 @@ class _HiddenGemsPageState
                   rating: 4.9,
                   imagePath:
                       "assets/images/dailyfix.jpg",
+                  galleryImages: [
+    "assets/images/dailyfix.jpg",
+    "assets/images/dailyfix2.jpg",
+    "assets/images/dailyfix3.jpg",
+  ],
                 ),
               ],
             ),

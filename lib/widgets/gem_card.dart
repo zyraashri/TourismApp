@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/hidden_gems/gem_details_page.dart';
 
 class GemCard extends StatelessWidget {
   final String title;
@@ -6,6 +7,7 @@ class GemCard extends StatelessWidget {
   final String description;
   final double rating;
   final String imagePath;
+  final List<String> galleryImages;
 
   const GemCard({
     super.key,
@@ -14,6 +16,7 @@ class GemCard extends StatelessWidget {
     required this.description,
     required this.rating,
     required this.imagePath,
+    this.galleryImages = const [],
   });
 
   @override
@@ -116,7 +119,23 @@ class GemCard extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => GemDetailsPage(
+        title: title,
+        location: location,
+        description: description,
+        rating: rating,
+        imagePath: imagePath,
+        galleryImages: galleryImages.isEmpty
+            ? [imagePath]
+            : galleryImages,
+      ),
+    ),
+  );
+},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF384345),
                     ),

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../widgets/bottom_nav_bar.dart';
 import '../providers/smartcompanion_provider.dart';
-import 'homedashboard_page.dart';
-import 'planner_page.dart';
-import 'hiddengems_page.dart';
-import 'quests_page.dart';
 
 class CompanionPage extends StatefulWidget {
   const CompanionPage({super.key});
@@ -106,7 +102,7 @@ class _CompanionPageState extends State<CompanionPage> {
           ),
         ),
       ),
-      bottomNavigationBar: _bottomNavBar(context),
+      bottomNavigationBar: const QuestBottomNavBar(activePage: 'companion'),
     );
   }
 
@@ -505,7 +501,18 @@ class _CompanionPageState extends State<CompanionPage> {
               height: 60,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: placeImage(item, width: 58, height: 60),
+                child: Image.asset(
+                  item.imagePath,
+                  width: 58,
+                  height: 60,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.grey.shade300,
+                      child: const Icon(Icons.image_not_supported, size: 18),
+                    );
+                  },
+                ),
               ),
             ),
 
@@ -711,36 +718,59 @@ class _CompanionPageState extends State<CompanionPage> {
     Color backgroundColor = const Color(0xFFF6E7A6),
     Color textColor = Colors.black,
   }) {
-    return ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: backgroundColor,
-        foregroundColor: textColor,
-        elevation: 0,
-        minimumSize: const Size(0, 24),
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (!iconOnRight) ...[
-            Image.asset(iconPath, width: 10, height: 10),
-            const SizedBox(width: 4),
-          ],
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 8,
-              fontWeight: FontWeight.w800,
-              color: textColor,
-            ),
+    Widget buttonIcon() {
+      if (iconPath.contains("bookmark")) {
+        return Icon(Icons.bookmark_border, size: 10, color: textColor);
+      }
+
+      if (iconPath.contains("arrow")) {
+        return Icon(Icons.arrow_forward_ios, size: 10, color: textColor);
+      }
+
+      return Image.asset(
+        iconPath,
+        width: 10,
+        height: 10,
+        errorBuilder: (context, error, stackTrace) {
+          return Icon(Icons.arrow_forward_ios, size: 10, color: textColor);
+        },
+      );
+    }
+
+    return SizedBox(
+      height: 28,
+      child: ElevatedButton(
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          foregroundColor: textColor,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
           ),
-          if (iconOnRight) ...[
-            const SizedBox(width: 4),
-            Image.asset(iconPath, width: 10, height: 10),
-          ],
-        ],
+        ),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (!iconOnRight) ...[buttonIcon(), const SizedBox(width: 3)],
+              Text(
+                text,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 7.5,
+                  fontWeight: FontWeight.w800,
+                  color: textColor,
+                ),
+              ),
+              if (iconOnRight) ...[const SizedBox(width: 3), buttonIcon()],
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -768,69 +798,6 @@ class _CompanionPageState extends State<CompanionPage> {
           offset: const Offset(0, 3),
         ),
       ],
-    );
-  }
-
-  Widget _bottomNavBar(BuildContext context) {
-    return Container(
-      height: 70,
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _navItem(
-            'assets/images/home.png',
-            "Home",
-            false,
-            () => goToPage(context, const HomeDashboardPage()),
-          ),
-          _navItem(
-            'assets/images/planner.png',
-            "Planner",
-            false,
-            () => goToPage(context, const PlannerPage()),
-          ),
-          _navItem(
-            'assets/images/hiddengems.png',
-            "Hidden Gems",
-            false,
-            () => goToPage(context, const HiddenGemsPage()),
-          ),
-          _navItem(
-            'assets/images/quest.png',
-            "Quests",
-            false,
-            () => goToPage(context, const QuestsPage()),
-          ),
-          _navItem('assets/images/companion.png', "Companion", true, () {}),
-        ],
-      ),
-    );
-  }
-
-  Widget _navItem(
-    String imagePath,
-    String label,
-    bool selected,
-    VoidCallback onTap,
-  ) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: 68,
-        padding: const EdgeInsets.symmetric(vertical: 7),
-        decoration: BoxDecoration(
-          color: selected ? const Color(0xFFB7C0BD) : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          children: [
-            Image.asset(imagePath, width: 25, height: 25, fit: BoxFit.contain),
-            const SizedBox(height: 3),
-            Text(label, style: const TextStyle(fontSize: 8)),
-          ],
-        ),
-      ),
     );
   }
 }

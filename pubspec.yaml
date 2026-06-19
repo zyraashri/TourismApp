@@ -1,13 +1,11 @@
 name: tourismapp
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
+publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
   sdk: ^3.11.4
-
 
 dependencies:
   flutter:
@@ -38,23 +36,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^6.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
 
   assets:
     - .env
+
     - assets/images/traveller.png
     - assets/images/stadthuysmelaka.jpg
     - assets/images/afamosa.jpg
@@ -71,6 +60,7 @@ flutter:
     - assets/images/hiddengems.png
     - assets/images/quest.png
     - assets/images/companion.png
+
     - assets/images/busker.jpg
     - assets/images/babanyonya.jpg
     - assets/images/jonkerkitchen.jpg
@@ -87,3 +77,21 @@ flutter:
     - assets/images/event.png
     - assets/images/cutlery.png
 
+    # Home Dashboard branch images
+    - assets/images/20240401_melaka_0134.jpg
+    - assets/images/6145705215823384750-removebg-preview.png
+    - assets/images/ChatGPT Image Jun 12, 2026, 07_27_01 PM.png
+    - assets/images/Jonker-88-1-e1545440303913.jpg
+    - assets/images/OIP.jpg
+    - assets/images/OIP (1).jpg
+    - assets/images/OIP (2).jpg
+    - assets/images/images (8).jpg
+    - assets/images/location (3).png
+    - assets/images/tourist-attraction.png
+    - assets/images/traffic-barrier.png
+    - assets/images/kopihutan.jpg
+    - assets/images/kopihutan2.jpg
+    - assets/images/kopihutan3.jpg
+    - assets/images/tasiktimah.jpg
+    - assets/images/dailyfix.jpg
+    - assets/images/rumahpenghulu.jpg

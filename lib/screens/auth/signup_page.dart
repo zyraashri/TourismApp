@@ -16,7 +16,7 @@ class _SignupPageState extends State<SignupPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  bool _obscurePassword = true;
+  final bool _obscurePassword = true;
 
   void _handleSignup() async {
     if (_formKey.currentState!.validate()) {
@@ -33,7 +33,9 @@ class _SignupPageState extends State<SignupPage> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => const Center(child: CircularProgressIndicator(color: Color(0xFF2D464C))),
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(color: Color(0xFF2D464C)),
+        ),
       );
 
       // Call the account registration backend task function via provider
@@ -50,7 +52,10 @@ class _SignupPageState extends State<SignupPage> {
         // Success! Notify user and bounce them back to the login frame
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Account created successfully! Please login.'), backgroundColor: Colors.green),
+            const SnackBar(
+              content: Text('Account created successfully! Please login.'),
+              backgroundColor: Colors.green,
+            ),
           );
           Navigator.pop(context);
         }
@@ -58,7 +63,10 @@ class _SignupPageState extends State<SignupPage> {
         // Failure! Present the specific creation exception warning on screen
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(errorMessage), backgroundColor: Colors.redAccent),
+            SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.redAccent,
+            ),
           );
         }
       }
@@ -73,7 +81,11 @@ class _SignupPageState extends State<SignupPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Color(0xFF2D464C), size: 20),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Color(0xFF2D464C),
+            size: 20,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -108,7 +120,10 @@ class _SignupPageState extends State<SignupPage> {
                     controller: _usernameController,
                     decoration: InputDecoration(
                       labelText: 'Full Name / Username',
-                      prefixIcon: const Icon(Icons.person_outline, color: Color(0xFF5D7A82)),
+                      prefixIcon: const Icon(
+                        Icons.person_outline,
+                        color: Color(0xFF5D7A82),
+                      ),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -131,7 +146,10 @@ class _SignupPageState extends State<SignupPage> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'Email Address',
-                      prefixIcon: const Icon(Icons.email_outlined, color: Color(0xFF5D7A82)),
+                      prefixIcon: const Icon(
+                        Icons.email_outlined,
+                        color: Color(0xFF5D7A82),
+                      ),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -143,7 +161,9 @@ class _SignupPageState extends State<SignupPage> {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter your email';
                       }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value.trim())) {
+                      if (!RegExp(
+                        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(value.trim())) {
                         return 'Please enter a valid email architecture address';
                       }
                       return null;
@@ -157,7 +177,10 @@ class _SignupPageState extends State<SignupPage> {
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFF5D7A82)),
+                      prefixIcon: const Icon(
+                        Icons.lock_outline,
+                        color: Color(0xFF5D7A82),
+                      ),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -183,7 +206,10 @@ class _SignupPageState extends State<SignupPage> {
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Confirm Password',
-                      prefixIcon: const Icon(Icons.lock_reset_outlined, color: Color(0xFF5D7A82)),
+                      prefixIcon: const Icon(
+                        Icons.lock_reset_outlined,
+                        color: Color(0xFF5D7A82),
+                      ),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -211,61 +237,101 @@ class _SignupPageState extends State<SignupPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF2D464C),
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
-                      child: const Text('Sign Up', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
 
-                  // "OR" Divider Design Line 
+                  // "OR" Divider Design Line
                   Row(
                     children: const [
-                      Expanded(child: Divider(thickness: 1, endIndent: 10, indent: 10)),
-                      Text('OR', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                      Expanded(child: Divider(thickness: 1, indent: 10, endIndent: 10)),
+                      Expanded(
+                        child: Divider(thickness: 1, endIndent: 10, indent: 10),
+                      ),
+                      Text(
+                        'OR',
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                      Expanded(
+                        child: Divider(thickness: 1, indent: 10, endIndent: 10),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
 
-                  // Sign up with Google Button 
+                  // Sign up with Google Button
                   SizedBox(
                     height: 50,
                     child: OutlinedButton(
                       onPressed: () async {
-                        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                        
+                        final authProvider = Provider.of<AuthProvider>(
+                          context,
+                          listen: false,
+                        );
+
                         String? error = await authProvider.signUpWithGoogle();
-                        
+
                         if (error != null) {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Google Registration Failed: $error")),
+                              SnackBar(
+                                content: Text(
+                                  "Google Registration Failed: $error",
+                                ),
+                              ),
                             );
                           }
                         } else {
-                          print("Account successfully created/logged in via Google!");
+                          print(
+                            "Account successfully created/logged in via Google!",
+                          );
                           if (context.mounted) {
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => const DiscoverMalaysiaPage()),
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const DiscoverMalaysiaPage(),
+                              ),
                             );
                           }
                         }
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.white,
-                        side: BorderSide(color: Colors.grey.shade300, width: 1.5),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        side: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 1.5,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.g_mobiledata, size: 30, color: Colors.blue),
+                          const Icon(
+                            Icons.g_mobiledata,
+                            size: 30,
+                            color: Colors.blue,
+                          ),
                           const SizedBox(width: 12),
                           const Text(
                             'Sign up with Google',
-                            style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 14),
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
                         ],
                       ),
@@ -277,7 +343,10 @@ class _SignupPageState extends State<SignupPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Already have an account? ", style: TextStyle(color: Colors.black54)),
+                      const Text(
+                        "Already have an account? ",
+                        style: TextStyle(color: Colors.black54),
+                      ),
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: const Text(

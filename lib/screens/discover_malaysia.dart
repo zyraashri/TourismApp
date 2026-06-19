@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../global_widgets.dart';
 import 'quest_detail_page.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class DiscoverMalaysiaPage extends StatefulWidget {
   const DiscoverMalaysiaPage({super.key});
@@ -27,33 +28,98 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
     {'title': 'Visit Christ Church Melaka', 'subtitle': 'Red Square, Melaka'},
   ];
   final List<Map<String, dynamic>> _melakaQuiz = [
-    {'question': 'When was A Famosa fortress built?', 'options': ['1411', '1511', '1611', '1711'], 'correctIndex': 1},
-    {'question': 'Which colonial power built the Stadthuys?', 'options': ['Portuguese', 'Dutch', 'British', 'Spanish'], 'correctIndex': 1},
-    {'question': 'What color is Christ Church Melaka famous for?', 'options': ['White', 'Blue', 'Red', 'Golden Yellow'], 'correctIndex': 2},
+    {
+      'question': 'When was A Famosa fortress built?',
+      'options': ['1411', '1511', '1611', '1711'],
+      'correctIndex': 1,
+    },
+    {
+      'question': 'Which colonial power built the Stadthuys?',
+      'options': ['Portuguese', 'Dutch', 'British', 'Spanish'],
+      'correctIndex': 1,
+    },
+    {
+      'question': 'What color is Christ Church Melaka famous for?',
+      'options': ['White', 'Blue', 'Red', 'Golden Yellow'],
+      'correctIndex': 2,
+    },
   ];
 
   // --- REGION 2 DATA: PENANG ---
   final List<Map<String, String>> _penangLocations = [
-    {'title': 'Visit Fort Cornwallis', 'subtitle': 'Jalan Tun Syed Sheh Barakbah'},
-    {'title': 'Visit Pinang Peranakan Mansion', 'subtitle': 'Church Street, George Town'},
-    {'title': 'Visit Cheong Fatt Tze Mansion', 'subtitle': 'Leith Street, George Town'},
+    {
+      'title': 'Visit Fort Cornwallis',
+      'subtitle': 'Jalan Tun Syed Sheh Barakbah',
+    },
+    {
+      'title': 'Visit Pinang Peranakan Mansion',
+      'subtitle': 'Church Street, George Town',
+    },
+    {
+      'title': 'Visit Cheong Fatt Tze Mansion',
+      'subtitle': 'Leith Street, George Town',
+    },
   ];
   final List<Map<String, dynamic>> _penangQuiz = [
-    {'question': 'Who founded George Town in 1786?', 'options': ['Francis Light', 'Stamford Raffles', 'Alfonso de Albuquerque', 'William Light'], 'correctIndex': 0},
-    {'question': 'Cheong Fatt Tze Mansion is famous for what color?', 'options': ['Indigo Blue', 'Ruby Red', 'Emerald Green', 'Mustard Yellow'], 'correctIndex': 0},
-    {'question': 'What clan jetty is the most famous tourist spot?', 'options': ['Lim Jetty', 'Chew Jetty', 'Tan Jetty', 'Yeoh Jetty'], 'correctIndex': 1},
+    {
+      'question': 'Who founded George Town in 1786?',
+      'options': [
+        'Francis Light',
+        'Stamford Raffles',
+        'Alfonso de Albuquerque',
+        'William Light',
+      ],
+      'correctIndex': 0,
+    },
+    {
+      'question': 'Cheong Fatt Tze Mansion is famous for what color?',
+      'options': ['Indigo Blue', 'Ruby Red', 'Emerald Green', 'Mustard Yellow'],
+      'correctIndex': 0,
+    },
+    {
+      'question': 'What clan jetty is the most famous tourist spot?',
+      'options': ['Lim Jetty', 'Chew Jetty', 'Tan Jetty', 'Yeoh Jetty'],
+      'correctIndex': 1,
+    },
   ];
 
   // --- REGION 3 DATA: SABAH ---
   final List<Map<String, String>> _sabahLocations = [
     {'title': 'Visit Desa Dairy Farm', 'subtitle': 'Kundasang, Sabah'},
     {'title': 'Visit Kinabalu Park Orchid Garden', 'subtitle': 'Ranau, Sabah'},
-    {'title': 'Visit Kundasang War Memorial', 'subtitle': 'Kundasang Town, Sabah'},
+    {
+      'title': 'Visit Kundasang War Memorial',
+      'subtitle': 'Kundasang Town, Sabah',
+    },
   ];
   final List<Map<String, dynamic>> _sabahQuiz = [
-    {'question': 'Kundasang sits near the base of which mountain?', 'options': ['Mount Jerai', 'Mount Kinabalu', 'Mount Tahan', 'Mount Ledang'], 'correctIndex': 1},
-    {'question': 'Desa Dairy Farm is often compared to the pastures of which country?', 'options': ['New Zealand', 'Switzerland', 'Netherlands', 'Scotland'], 'correctIndex': 0},
-    {'question': 'The Kundasang War Memorial honors soldiers from which two nations?', 'options': ['Malaysia & UK', 'Australia & UK', 'New Zealand & Japan', 'Australia & Malaysia'], 'correctIndex': 1},
+    {
+      'question': 'Kundasang sits near the base of which mountain?',
+      'options': [
+        'Mount Jerai',
+        'Mount Kinabalu',
+        'Mount Tahan',
+        'Mount Ledang',
+      ],
+      'correctIndex': 1,
+    },
+    {
+      'question':
+          'Desa Dairy Farm is often compared to the pastures of which country?',
+      'options': ['New Zealand', 'Switzerland', 'Netherlands', 'Scotland'],
+      'correctIndex': 0,
+    },
+    {
+      'question':
+          'The Kundasang War Memorial honors soldiers from which two nations?',
+      'options': [
+        'Malaysia & UK',
+        'Australia & UK',
+        'New Zealand & Japan',
+        'Australia & Malaysia',
+      ],
+      'correctIndex': 1,
+    },
   ];
 
   @override
@@ -63,9 +129,21 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
     int badgesCount = 0;
     int placesVisited = 0;
 
-    if (_isMelakaCompleted) { totalPoints += 300; badgesCount++; placesVisited++; }
-    if (_isPenangCompleted) { totalPoints += 300; badgesCount++; placesVisited++; }
-    if (_isSabahCompleted)  { totalPoints += 300; badgesCount++; placesVisited++; }
+    if (_isMelakaCompleted) {
+      totalPoints += 300;
+      badgesCount++;
+      placesVisited++;
+    }
+    if (_isPenangCompleted) {
+      totalPoints += 300;
+      badgesCount++;
+      placesVisited++;
+    }
+    if (_isSabahCompleted) {
+      totalPoints += 300;
+      badgesCount++;
+      placesVisited++;
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -80,12 +158,21 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
                 children: [
                   const Text(
                     'CULTURAL QUEST CHALLENGE',
-                    style: TextStyle(color: Color(0xFFE5C158), fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                    style: TextStyle(
+                      color: Color(0xFFE5C158),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   const Text(
                     'Discover Malaysia',
-                    style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -101,12 +188,15 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
                 ],
               ),
             ),
-            
+
             const Padding(
               padding: EdgeInsets.all(20.0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Choose a destination to begin your quest', style: TextStyle(color: Colors.grey, fontSize: 14)),
+                child: Text(
+                  'Choose a destination to begin your quest',
+                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                ),
               ),
             ),
 
@@ -135,13 +225,17 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
                             region: 'Melaka',
                             locationsData: _melakaLocations,
                             quizQuestions: _melakaQuiz,
-                            initialCheckedLocations: List.generate(3, (i) => i < _melakaChecks),
+                            initialCheckedLocations: List.generate(
+                              3,
+                              (i) => i < _melakaChecks,
+                            ),
                           ),
                         ),
                       );
                       if (result != null && result is Map<String, dynamic>) {
                         setState(() {
-                          _isMelakaCompleted = result['isQuestCompleted'] ?? false;
+                          _isMelakaCompleted =
+                              result['isQuestCompleted'] ?? false;
                           _melakaChecks = result['checkInCount'] ?? 0;
                         });
                       }
@@ -168,13 +262,17 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
                             region: 'Penang',
                             locationsData: _penangLocations,
                             quizQuestions: _penangQuiz,
-                            initialCheckedLocations: List.generate(3, (i) => i < _penangChecks),
+                            initialCheckedLocations: List.generate(
+                              3,
+                              (i) => i < _penangChecks,
+                            ),
                           ),
                         ),
                       );
                       if (result != null && result is Map<String, dynamic>) {
                         setState(() {
-                          _isPenangCompleted = result['isQuestCompleted'] ?? false;
+                          _isPenangCompleted =
+                              result['isQuestCompleted'] ?? false;
                           _penangChecks = result['checkInCount'] ?? 0;
                         });
                       }
@@ -201,13 +299,17 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
                             region: 'Sabah',
                             locationsData: _sabahLocations,
                             quizQuestions: _sabahQuiz,
-                            initialCheckedLocations: List.generate(3, (i) => i < _sabahChecks),
+                            initialCheckedLocations: List.generate(
+                              3,
+                              (i) => i < _sabahChecks,
+                            ),
                           ),
                         ),
                       );
                       if (result != null && result is Map<String, dynamic>) {
                         setState(() {
-                          _isSabahCompleted = result['isQuestCompleted'] ?? false;
+                          _isSabahCompleted =
+                              result['isQuestCompleted'] ?? false;
                           _sabahChecks = result['checkInCount'] ?? 0;
                         });
                       }
@@ -219,7 +321,7 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
           ],
         ),
       ),
-      bottomNavigationBar: buildBottomNavBar(activeQuestIndex: true),
+      bottomNavigationBar: const QuestBottomNavBar(activePage: 'quests'),
     );
   }
 
@@ -227,7 +329,10 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(color: const Color(0xFF4A656D), borderRadius: BorderRadius.circular(12)),
+        decoration: BoxDecoration(
+          color: const Color(0xFF4A656D),
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -235,11 +340,23 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
               children: [
                 Text(icon, style: const TextStyle(fontSize: 16)),
                 const SizedBox(width: 6),
-                Text(value, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 4),
-            Text(label, style: const TextStyle(color: Colors.white70, fontSize: 11), maxLines: 1, overflow: TextOverflow.ellipsis),
+            Text(
+              label,
+              style: const TextStyle(color: Colors.white70, fontSize: 11),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ),
@@ -272,7 +389,10 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
               Container(
                 width: 50,
                 height: 50,
-                decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(
+                  color: iconBg,
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 alignment: Alignment.center,
                 child: Text(icon, style: const TextStyle(fontSize: 24)),
               ),
@@ -284,8 +404,17 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15))),
-                        if (hasBadge) const Text('🏅', style: TextStyle(fontSize: 16)),
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                        if (hasBadge)
+                          const Text('🏅', style: TextStyle(fontSize: 16)),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -300,8 +429,21 @@ class _DiscoverMalaysiaPageState extends State<DiscoverMalaysiaPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(checkIns, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                        Text(percentage, style: const TextStyle(color: Colors.black87, fontSize: 12, fontWeight: FontWeight.bold)),
+                        Text(
+                          checkIns,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          percentage,
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ],

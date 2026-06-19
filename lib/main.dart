@@ -11,7 +11,6 @@ import 'firebase_options.dart';
 import 'providers/auth_provider.dart';
 import 'providers/homedashboard_provider.dart';
 import 'providers/smartcompanion_provider.dart';
-
 import 'screens/auth/login_page.dart';
 
 void main() async {

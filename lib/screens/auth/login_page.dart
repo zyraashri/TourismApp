@@ -1,8 +1,8 @@
 import 'package:provider/provider.dart';
+import 'package:tourismapp/screens/homedashboard_page.dart';
 import 'package:tourismapp/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:tourismapp/screens/auth/signup_page.dart';
-import 'package:tourismapp/screens/discover_malaysia.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
         if (mounted) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const DiscoverMalaysiaPage()),
+            MaterialPageRoute(builder: (context) => const HomeDashboardPage()),
           );
         }
       } else {
@@ -56,14 +56,16 @@ class _LoginPageState extends State<LoginPage> {
               backgroundColor: Colors.redAccent,
               duration: const Duration(seconds: 5),
               // Adds a clickable "SIGN UP" text button inside the error banner!
-              action: isNotRegistered 
+              action: isNotRegistered
                   ? SnackBarAction(
                       label: 'SIGN UP',
                       textColor: Colors.white,
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignupPage()),
+                          MaterialPageRoute(
+                            builder: (context) => const SignupPage(),
+                          ),
                         );
                       },
                     )
@@ -117,7 +119,10 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: 'Email Address / Username',
-                      prefixIcon: const Icon(Icons.email_outlined, color: Color(0xFF5D7A82)),
+                      prefixIcon: const Icon(
+                        Icons.email_outlined,
+                        color: Color(0xFF5D7A82),
+                      ),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -140,10 +145,15 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFF5D7A82)),
+                      prefixIcon: const Icon(
+                        Icons.lock_outline,
+                        color: Color(0xFF5D7A82),
+                      ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                          _obscurePassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
                           color: const Color(0xFF5D7A82),
                         ),
                         onPressed: () {
@@ -173,12 +183,20 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextButton(
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Password reset link sent to your email')),
+                          const SnackBar(
+                            content: Text(
+                              'Password reset link sent to your email',
+                            ),
+                          ),
                         );
                       },
                       child: const Text(
                         'Forgot Password?',
-                        style: TextStyle(color: Color(0xFF5D7A82), fontWeight: FontWeight.bold, fontSize: 13),
+                        style: TextStyle(
+                          color: Color(0xFF5D7A82),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
                   ),
@@ -192,10 +210,18 @@ class _LoginPageState extends State<LoginPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF2D464C),
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         elevation: 1,
                       ),
-                      child: const Text('Sign In', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'Sign In',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -203,9 +229,16 @@ class _LoginPageState extends State<LoginPage> {
                   // "OR" Divider Design Line
                   Row(
                     children: const [
-                      Expanded(child: Divider(thickness: 1, endIndent: 10, indent: 10)),
-                      Text('OR', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                      Expanded(child: Divider(thickness: 1, indent: 10, endIndent: 10)),
+                      Expanded(
+                        child: Divider(thickness: 1, endIndent: 10, indent: 10),
+                      ),
+                      Text(
+                        'OR',
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                      Expanded(
+                        child: Divider(thickness: 1, indent: 10, endIndent: 10),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -215,14 +248,19 @@ class _LoginPageState extends State<LoginPage> {
                     height: 50,
                     child: OutlinedButton(
                       onPressed: () async {
-                        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                        
+                        final authProvider = Provider.of<AuthProvider>(
+                          context,
+                          listen: false,
+                        );
+
                         String? error = await authProvider.signInWithGoogle();
-                        
+
                         if (error != null) {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Google Sign-In Failed: $error")),
+                              SnackBar(
+                                content: Text("Google Sign-In Failed: $error"),
+                              ),
                             );
                           }
                         } else {
@@ -230,24 +268,39 @@ class _LoginPageState extends State<LoginPage> {
                           if (context.mounted) {
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => const DiscoverMalaysiaPage()),
+                              MaterialPageRoute(
+                                builder: (context) => const HomeDashboardPage(),
+                              ),
                             );
                           }
                         }
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.white,
-                        side: BorderSide(color: Colors.grey.shade300, width: 1.5),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        side: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 1.5,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.g_mobiledata, size: 30, color: Colors.blue),
+                          const Icon(
+                            Icons.g_mobiledata,
+                            size: 30,
+                            color: Colors.blue,
+                          ),
                           const SizedBox(width: 12),
                           const Text(
                             'Sign in with Google',
-                            style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 14),
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
                         ],
                       ),
@@ -259,12 +312,17 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't have an account? ", style: TextStyle(color: Colors.black54)),
+                      const Text(
+                        "Don't have an account? ",
+                        style: TextStyle(color: Colors.black54),
+                      ),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const SignupPage()),
+                            MaterialPageRoute(
+                              builder: (context) => const SignupPage(),
+                            ),
                           );
                         },
                         child: const Text(

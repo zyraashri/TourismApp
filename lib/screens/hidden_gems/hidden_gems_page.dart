@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:tourismapp/screens/home_page.dart';
+import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/gem_card.dart';
 import 'add_hidden_gem_page.dart';
 
@@ -632,36 +633,7 @@ class _HiddenGemsPageState extends State<HiddenGemsPage> {
         ],
       ),
 
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: primaryColor,
-        unselectedItemColor: Colors.black,
-        currentIndex: 2,
-        type: BottomNavigationBarType.fixed,
-        selectedFontSize: 10,
-        unselectedFontSize: 10,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event_note),
-            label: "Planner",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.diamond_outlined),
-            label: "Hidden Gems",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_events_outlined),
-            label: "Quests",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.support_agent_outlined),
-            label: "Companion",
-          ),
-        ],
-      ),
+      bottomNavigationBar: const QuestBottomNavBar(activePage: 'hiddenGems'),
     );
   }
 

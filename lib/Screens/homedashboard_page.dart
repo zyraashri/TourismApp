@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tourismapp/screens/home_page.dart';
 import '../providers/homedashboard_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'planner_page.dart';
-import 'hiddengems_page.dart';
-import 'quests_page.dart';
+import 'home_page.dart';
+import 'hidden_gems/hidden_gems_page.dart';
+import 'discover_malaysia.dart';
 import 'companion_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import '../profile/profile_settings_screen.dart';
 
 class HomeDashboardPage extends StatefulWidget {
   const HomeDashboardPage({super.key});
@@ -19,6 +21,15 @@ class HomeDashboardPage extends StatefulWidget {
 class _HomeDashboardPageState extends State<HomeDashboardPage> {
   GoogleMapController? _mapController;
 
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      context.read<HomeDashboardProvider>().loadDashboard();
+    });
+  }
+
   void goToPage(BuildContext context, Widget page) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => page));
   }
@@ -26,6 +37,14 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
   @override
   Widget build(BuildContext context) {
     final home = Provider.of<HomeDashboardProvider>(context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _mapController?.animateCamera(
+        CameraUpdate.newLatLng(
+          LatLng(home.currentLatitude, home.currentLongitude),
+        ),
+      );
+    });
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F4EC),
@@ -73,7 +92,7 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                                   home.currentLatitude,
                                   home.currentLongitude,
                                 ),
-                                zoom: 14,
+                                zoom: 15,
                               ),
                               myLocationEnabled: true,
                               myLocationButtonEnabled: false,
@@ -82,8 +101,8 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                               compassEnabled: false,
                               scrollGesturesEnabled: true,
                               zoomGesturesEnabled: true,
-                              rotateGesturesEnabled: false,
-                              tiltGesturesEnabled: false,
+                              rotateGesturesEnabled: true,
+                              tiltGesturesEnabled: true,
                               gestureRecognizers: {
                                 Factory<OneSequenceGestureRecognizer>(
                                   () => EagerGestureRecognizer(),
@@ -95,6 +114,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                                   position: LatLng(
                                     home.currentLatitude,
                                     home.currentLongitude,
+                                  ),
+                                  infoWindow: const InfoWindow(
+                                    title: "Current Location",
                                   ),
                                 ),
                               },
@@ -189,15 +211,24 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
         const Spacer(),
         const Icon(Icons.notifications_none, size: 28),
         const SizedBox(width: 12),
-        CircleAvatar(
-          radius: 19,
-          backgroundColor: const Color(0xFFBFD8E7),
-          backgroundImage: home.profileImageUrl.isNotEmpty
-              ? NetworkImage(home.profileImageUrl)
-              : null,
-          child: home.profileImageUrl.isEmpty
-              ? const Icon(Icons.person, color: Colors.white)
-              : null,
+
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ProfileSettingsScreen()),
+            );
+          },
+          child: CircleAvatar(
+            radius: 19,
+            backgroundColor: const Color(0xFFBFD8E7),
+            backgroundImage: home.profileImageUrl.isNotEmpty
+                ? NetworkImage(home.profileImageUrl)
+                : null,
+            child: home.profileImageUrl.isEmpty
+                ? const Icon(Icons.person, color: Colors.white)
+                : null,
+          ),
         ),
       ],
     );
@@ -358,8 +389,7 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                         ),
                         const Spacer(),
                         ElevatedButton(
-                          onPressed: () =>
-                              goToPage(context, const PlannerPage()),
+                          onPressed: () => goToPage(context, const HomePage()),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFF6E7A6),
                             foregroundColor: Colors.black,
@@ -461,7 +491,7 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                         const Spacer(),
                         ElevatedButton(
                           onPressed: () =>
-                              goToPage(context, const QuestsPage()),
+                              goToPage(context, const DiscoverMalaysiaPage()),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFF6E7A6),
                             foregroundColor: Colors.black,
@@ -580,24 +610,28 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _navItem('assets/images/home.png', "Home", true, () {}),
+
           _navItem(
             'assets/images/planner.png',
             "Planner",
             false,
-            () => goToPage(context, const PlannerPage()),
+            () => goToPage(context, const HomePage()),
           ),
+
           _navItem(
             'assets/images/hiddengems.png',
             "Hidden Gems",
             false,
             () => goToPage(context, const HiddenGemsPage()),
           ),
+
           _navItem(
             'assets/images/quest.png',
             "Quests",
             false,
-            () => goToPage(context, const QuestsPage()),
+            () => goToPage(context, const DiscoverMalaysiaPage()),
           ),
+
           _navItem(
             'assets/images/companion.png',
             "Companion",

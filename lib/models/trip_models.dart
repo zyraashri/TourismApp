@@ -7,11 +7,11 @@ class Trip {
   double budgetLimit;
   List<ItineraryItem> itinerary;
   List<ExpenseItem> expenses;
-  List<String> attractions; 
+  List<String> attractions;
   List<String> favoriteLocations;
-  
+
   // CHANGED: Store raw bytes instead of a local file path string
-  Uint8List? imageBytes; 
+  Uint8List? imageBytes;
 
   Trip({
     required this.destination,
@@ -23,8 +23,8 @@ class Trip {
     this.imageBytes, // <-- Updated here
     List<String>? attractions,
     List<String>? favoriteLocations,
-  }) : this.attractions = attractions ?? [],
-       this.favoriteLocations = favoriteLocations ?? [];
+  }) : attractions = attractions ?? [],
+       favoriteLocations = favoriteLocations ?? [];
 
   double get totalSpent => expenses.fold(0.0, (sum, item) => sum + item.amount);
   bool get isHistory => endDate.isBefore(DateTime.now());
@@ -35,7 +35,11 @@ class ItineraryItem {
   final String time;
   final String description;
 
-  ItineraryItem({required this.dayNumber, required this.time, required this.description});
+  ItineraryItem({
+    required this.dayNumber,
+    required this.time,
+    required this.description,
+  });
 }
 
 class ExpenseItem {

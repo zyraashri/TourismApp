@@ -14,6 +14,7 @@ class _AddHiddenGemPageState extends State<AddHiddenGemPage> {
 
   String? selectedDestination;
   String selectedCategory = "Nature";
+  int selectedRating = 0;
 
   static const Color backgroundColor = Color(0xFFFCF8EF);
   static const Color darkColor = Color(0xFF384345);
@@ -56,15 +57,16 @@ class _AddHiddenGemPageState extends State<AddHiddenGemPage> {
 
   void goToUploadPage() {
     if (placeNameController.text.isEmpty ||
-        selectedDestination == null ||
-        descriptionController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please complete all fields"),
-        ),
-      );
-      return;
-    }
+    selectedDestination == null ||
+    descriptionController.text.isEmpty ||
+    selectedRating == 0) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text("Please complete all fields and add your rating"),
+    ),
+  );
+  return;
+}
 
     Navigator.push(
       context,
@@ -74,6 +76,7 @@ class _AddHiddenGemPageState extends State<AddHiddenGemPage> {
           destination: selectedDestination!,
           category: selectedCategory,
           description: descriptionController.text,
+          rating: selectedRating.toDouble(),
         ),
       ),
     );
@@ -268,6 +271,11 @@ class _AddHiddenGemPageState extends State<AddHiddenGemPage> {
                       ),
                     ),
 
+                    const SizedBox(height: 18),
+
+_buildLabel("Your Rating"),
+_buildStarRating(),
+
                     const SizedBox(height: 22),
 
                     Container(
@@ -426,4 +434,26 @@ class _AddHiddenGemPageState extends State<AddHiddenGemPage> {
       onChanged: onChanged,
     );
   }
+
+  Widget _buildStarRating() {
+  return Row(
+    children: List.generate(5, (index) {
+      final int starNumber = index + 1;
+      final bool isSelected = starNumber <= selectedRating;
+
+      return GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedRating = starNumber;
+          });
+        },
+        child: Icon(
+          isSelected ? Icons.star : Icons.star_border,
+          color: Colors.amber,
+          size: 34,
+        ),
+      );
+    }),
+  );
+}
 }

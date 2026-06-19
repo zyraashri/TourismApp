@@ -9,6 +9,7 @@ class UploadHiddenGemPage extends StatefulWidget {
   final String destination;
   final String category;
   final String description;
+  final double rating;
 
   const UploadHiddenGemPage({
     super.key,
@@ -16,6 +17,7 @@ class UploadHiddenGemPage extends StatefulWidget {
     required this.destination,
     required this.category,
     required this.description,
+    required this.rating,
   });
 
   @override
@@ -92,8 +94,8 @@ await FirebaseFirestore.instance.collection("hidden_gems").add({
   "description": widget.description,
 
   // Review/rating fields
-  "rating": 0,
-  "reviewCount": 0,
+  "rating": widget.rating,
+  "reviewCount": 1,
 
   // Submission status
   "status": "pending",
@@ -302,6 +304,25 @@ await FirebaseFirestore.instance.collection("hidden_gems").add({
                                     fontSize: 13,
                                   ),
                                 ),
+                                const SizedBox(height: 5),
+
+Row(
+  children: [
+    const Icon(
+      Icons.star,
+      color: Colors.amber,
+      size: 15,
+    ),
+    const SizedBox(width: 4),
+    Text(
+      widget.rating.toStringAsFixed(1),
+      style: const TextStyle(
+        color: textGrey,
+        fontSize: 13,
+      ),
+    ),
+  ],
+),
                               ],
                             ),
                           ),

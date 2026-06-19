@@ -25,6 +25,12 @@ class HomeDashboardProvider extends ChangeNotifier {
     try {
       await getCurrentLocation();
 
+      final hiddenGemsSnapshot = await FirebaseFirestore.instance
+          .collection('hidden_gems')
+          .get();
+
+      reviewsShared = hiddenGemsSnapshot.docs.length;
+
       final snapshot = await FirebaseFirestore.instance
           .collection('trips')
           .get();

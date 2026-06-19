@@ -22,7 +22,6 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
   bool isSubmitting = false;
 
   static const Color backgroundColor = Color(0xFFFCF8EF);
-  static const Color primaryColor = Color(0xFF3F646C);
   static const Color darkColor = Color(0xFF384345);
   static const Color textGrey = Color(0xFF7A7A7A);
 

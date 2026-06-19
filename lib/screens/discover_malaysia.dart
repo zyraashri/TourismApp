@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../global_widgets.dart';
 import 'quest_detail_page.dart';
 import '../widgets/bottom_nav_bar.dart';
 

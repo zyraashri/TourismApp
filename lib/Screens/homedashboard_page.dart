@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:tourismapp/screens/home_page.dart';
 import '../providers/homedashboard_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'home_page.dart';
 import 'hidden_gems/hidden_gems_page.dart';
 import 'discover_malaysia.dart';
 import 'companion_page.dart';
@@ -472,7 +471,7 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
                                 child: const LinearProgressIndicator(
-                                  value: 0.67,
+                                  value: 0.00,
                                   minHeight: 8,
                                   backgroundColor: Color(0xFFE5E5E5),
                                   valueColor: AlwaysStoppedAnimation<Color>(

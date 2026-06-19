@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeDashboardProvider extends ChangeNotifier {
-  String username = "Adli";
+  String username = "User";
+  DateTime upcomingTripDate = DateTime.now();
   String profileImageUrl = '';
 
   double currentLatitude = 3.1390;
@@ -15,13 +17,40 @@ class HomeDashboardProvider extends ChangeNotifier {
   int reviewsShared = 8;
 
   String upcomingTripTitle = "Melaka Exploration Trip";
-  DateTime upcomingTripDate = DateTime(2026, 6, 26);
   String upcomingTripDestination = "5 Destinations Planned";
 
   String currentQuestTitle = "Bandaraya Melaka";
-  String currentQuestProgress = "2/3";
+  String currentQuestProgress = "0/3";
 
   Future<void> loadDashboard() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .get();
+
+      if (userDoc.exists) {
+        final data = userDoc.data()!;
+
+        username =
+            data['name'] ??
+            data['username'] ??
+            currentUser.displayName ??
+            currentUser.email?.split('@').first ??
+            'User';
+
+        profileImageUrl = data['profileImageUrl'] ?? currentUser.photoURL ?? '';
+      } else {
+        username =
+            currentUser.displayName ??
+            currentUser.email?.split('@').first ??
+            'User';
+
+        profileImageUrl = currentUser.photoURL ?? '';
+      }
+    }
     try {
       await getCurrentLocation();
 
@@ -35,7 +64,6 @@ class HomeDashboardProvider extends ChangeNotifier {
       if (dashboardDoc.exists) {
         final data = dashboardDoc.data()!;
 
-        username = data['username'] ?? username;
         profileImageUrl = data['profileImageUrl'] ?? profileImageUrl;
         upcomingTripTitle = data['upcomingTripTitle'] ?? upcomingTripTitle;
 
@@ -180,25 +208,32 @@ class HomeDashboardProvider extends ChangeNotifier {
   }
 
   String get upcomingTripDateDisplay {
-    final now = DateTime.now();
+    final now = DateTime.now().toLocal();
 
     final today = DateTime(now.year, now.month, now.day);
-    final trip = DateTime(
-      upcomingTripDate.year,
-      upcomingTripDate.month,
-      upcomingTripDate.day,
+
+    final tripDateLocal = upcomingTripDate.toLocal();
+    final tripStart = DateTime(
+      tripDateLocal.year,
+      tripDateLocal.month,
+      tripDateLocal.day,
     );
 
-    final difference = trip.difference(today).inDays;
+    final difference = tripStart.difference(today).inDays;
 
     final dateText =
-        "${upcomingTripDate.day} ${_monthName(upcomingTripDate.month)} ${upcomingTripDate.year}";
+        "${tripStart.day} ${_monthName(tripStart.month)} ${tripStart.year}";
 
-    if (difference == 0) return "Today • $dateText";
-    if (difference == 1) return "Tomorrow • $dateText";
+    debugPrint("Today: $today");
+    debugPrint("Trip start: $tripStart");
+    debugPrint("Difference: $difference");
+
+    if (difference == 0) return "Starts Today • $dateText";
+    if (difference == 1) return "Starts Tomorrow • $dateText";
     if (difference > 1) return "$difference Days Left • $dateText";
+    if (difference == -1) return "Started Yesterday • $dateText";
 
-    return "Past Trip • $dateText";
+    return "Started ${difference.abs()} Days Ago • $dateText";
   }
 
   String _monthName(int month) {

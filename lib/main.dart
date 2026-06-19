@@ -56,6 +56,7 @@ class QuestMYApp extends StatelessWidget {
       title: 'QuestMY',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: GoogleFonts.poppins().fontFamily,
         textTheme: GoogleFonts.poppinsTextTheme(),
         scaffoldBackgroundColor: const Color(0xFFFCF8EF),
         primaryColor: const Color(0xFF2E3D39),

@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/trip_models.dart';
 import 'create_trip_page.dart';
 import 'trip_dashboard.dart';

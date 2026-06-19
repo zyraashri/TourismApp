@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tourismapp/screens/home_page.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/gem_card.dart';
 import 'add_hidden_gem_page.dart';

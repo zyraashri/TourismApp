@@ -13,6 +13,7 @@ class GemCard extends StatelessWidget {
   final String imagePath;
   final List<String> galleryImages;
   final bool isCommunitySubmission;
+  final bool isUserSubmission;
 
   const GemCard({
     super.key,
@@ -25,6 +26,7 @@ class GemCard extends StatelessWidget {
     required this.imagePath,
     this.galleryImages = const [],
     this.isCommunitySubmission = false,
+    this.isUserSubmission = false,
   });
 
   static const Color primaryColor = Color(0xFF3F646C);
@@ -49,7 +51,7 @@ class GemCard extends StatelessWidget {
     double totalRating = 0;
     int ratingCount = 0;
 
-    if (isCommunitySubmission && rating > 0) {
+    if (isUserSubmission && rating > 0) {
       totalRating += rating;
       ratingCount++;
     }
@@ -80,7 +82,7 @@ class GemCard extends StatelessWidget {
   int getRealRatingCount(List<QueryDocumentSnapshot> reviews) {
     int count = reviews.length;
 
-    if (isCommunitySubmission && rating > 0) {
+    if (isUserSubmission && rating > 0) {
       count++;
     }
 
@@ -113,6 +115,7 @@ class GemCard extends StatelessWidget {
           imagePath: imagePath,
           galleryImages: galleryImages.isEmpty ? [imagePath] : galleryImages,
           isCommunitySubmission: isCommunitySubmission,
+          isUserSubmission: isUserSubmission,
         ),
       ),
     );
@@ -199,11 +202,7 @@ class GemCard extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Icon(
-                          categoryIcon,
-                          size: 14,
-                          color: primaryColor,
-                        ),
+                        Icon(categoryIcon, size: 14, color: primaryColor),
                         const SizedBox(width: 5),
                         Text(
                           category,
@@ -232,11 +231,7 @@ class GemCard extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        const Icon(
-                          Icons.star,
-                          size: 14,
-                          color: Colors.amber,
-                        ),
+                        const Icon(Icons.star, size: 14, color: Colors.amber),
                         const SizedBox(width: 4),
                         StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance

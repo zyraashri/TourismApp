@@ -13,6 +13,7 @@ class GemDetailsPage extends StatefulWidget {
   final String imagePath;
   final List<String> galleryImages;
   final bool isCommunitySubmission;
+  final bool isUserSubmission;
 
   const GemDetailsPage({
     super.key,
@@ -25,6 +26,7 @@ class GemDetailsPage extends StatefulWidget {
     required this.imagePath,
     this.galleryImages = const [],
     this.isCommunitySubmission = false,
+    this.isUserSubmission = false,
   });
 
   @override
@@ -43,10 +45,10 @@ class _GemDetailsPageState extends State<GemDetailsPage> {
   static const Color softYellow = Color(0xFFF7EAB6);
 
   @override
-void initState() {
-  super.initState();
-  currentUploaderRating = widget.rating;
-}
+  void initState() {
+    super.initState();
+    currentUploaderRating = widget.rating;
+  }
 
   List<String> get images {
     if (widget.galleryImages.isNotEmpty) {
@@ -80,10 +82,10 @@ void initState() {
     double totalRating = 0;
     int ratingCount = 0;
 
-if (widget.isCommunitySubmission && currentUploaderRating > 0) {
-  totalRating += currentUploaderRating;
-  ratingCount++;
-}
+    if (widget.isUserSubmission && currentUploaderRating > 0) {
+      totalRating += currentUploaderRating;
+      ratingCount++;
+    }
 
     for (final review in reviews) {
       final data = review.data() as Map<String, dynamic>;
@@ -111,9 +113,9 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
   int getRealRatingCount(List<QueryDocumentSnapshot> reviews) {
     int count = reviews.length;
 
-    if (widget.isCommunitySubmission && currentUploaderRating > 0) {
-  count++;
-}
+    if (widget.isUserSubmission && currentUploaderRating > 0) {
+      count++;
+    }
 
     return count;
   }
@@ -134,130 +136,123 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => WriteReviewPage(
-          gemId: widget.gemId,
-          gemTitle: widget.title,
-        ),
+        builder: (_) =>
+            WriteReviewPage(gemId: widget.gemId, gemTitle: widget.title),
       ),
     );
   }
-  
-  void showEditUploaderRatingDialog() {
-  int temporaryRating = currentUploaderRating.round();
 
-  showDialog(
-    context: context,
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (context, setDialogState) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            title: const Text(
-              "Edit Your Rating",
-              style: TextStyle(
-                color: darkColor,
-                fontWeight: FontWeight.w900,
+  void showEditUploaderRatingDialog() {
+    int temporaryRating = currentUploaderRating.round();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
               ),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  "Update the rating you gave for this hidden gem.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: textGrey,
-                    fontSize: 13,
-                    height: 1.4,
+              title: const Text(
+                "Edit Your Rating",
+                style: TextStyle(color: darkColor, fontWeight: FontWeight.w900),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Update the rating you gave for this hidden gem.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: textGrey,
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(5, (index) {
+                      final int starNumber = index + 1;
+
+                      return GestureDetector(
+                        onTap: () {
+                          setDialogState(() {
+                            temporaryRating = starNumber;
+                          });
+                        },
+                        child: Icon(
+                          starNumber <= temporaryRating
+                              ? Icons.star
+                              : Icons.star_border,
+                          color: Colors.amber,
+                          size: 34,
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              ),
+              actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: textGrey,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await FirebaseFirestore.instance
+                        .collection("hidden_gems")
+                        .doc(widget.gemId)
+                        .update({"rating": temporaryRating.toDouble()});
 
-                const SizedBox(height: 18),
+                    if (!mounted) return;
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(5, (index) {
-                    final int starNumber = index + 1;
+                    setState(() {
+                      currentUploaderRating = temporaryRating.toDouble();
+                    });
 
-                    return GestureDetector(
-                      onTap: () {
-                        setDialogState(() {
-                          temporaryRating = starNumber;
-                        });
-                      },
-                      child: Icon(
-                        starNumber <= temporaryRating
-                            ? Icons.star
-                            : Icons.star_border,
-                        color: Colors.amber,
-                        size: 34,
+                    Navigator.pop(context);
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Your rating has been updated."),
                       ),
                     );
-                  }),
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: darkColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                  child: const Text(
+                    "Save",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
-            ),
-            actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  "Cancel",
-                  style: TextStyle(
-                    color: textGrey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  await FirebaseFirestore.instance
-                      .collection("hidden_gems")
-                      .doc(widget.gemId)
-                      .update({
-                    "rating": temporaryRating.toDouble(),
-                  });
-
-                  if (!mounted) return;
-
-                  setState(() {
-                    currentUploaderRating = temporaryRating.toDouble();
-                  });
-
-                  Navigator.pop(context);
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Your rating has been updated."),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: darkColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
-                child: const Text(
-                  "Save",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  );
-}
+            );
+          },
+        );
+      },
+    );
+  }
 
   Stream<QuerySnapshot> get reviewsStream {
     return FirebaseFirestore.instance
@@ -267,37 +262,37 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
   }
 
   String formatReviewDate(dynamic createdAt) {
-  if (createdAt == null) {
+    if (createdAt == null) {
+      return "Recently";
+    }
+
+    if (createdAt is Timestamp) {
+      final DateTime reviewDate = createdAt.toDate();
+      final Duration difference = DateTime.now().difference(reviewDate);
+
+      if (difference.inMinutes < 1) {
+        return "Just now";
+      }
+
+      if (difference.inMinutes < 60) {
+        return "${difference.inMinutes} min ago";
+      }
+
+      if (difference.inHours < 24) {
+        return "${difference.inHours} hr ago";
+      }
+
+      if (difference.inDays == 1) {
+        return "Yesterday";
+      }
+
+      if (difference.inDays < 7) {
+        return "${difference.inDays} days ago";
+      }
+    }
+
     return "Recently";
   }
-
-  if (createdAt is Timestamp) {
-    final DateTime reviewDate = createdAt.toDate();
-    final Duration difference = DateTime.now().difference(reviewDate);
-
-    if (difference.inMinutes < 1) {
-      return "Just now";
-    }
-
-    if (difference.inMinutes < 60) {
-      return "${difference.inMinutes} min ago";
-    }
-
-    if (difference.inHours < 24) {
-      return "${difference.inHours} hr ago";
-    }
-
-    if (difference.inDays == 1) {
-      return "Yesterday";
-    }
-
-    if (difference.inDays < 7) {
-      return "${difference.inDays} days ago";
-    }
-  }
-
-  return "Recently";
-}
 
   @override
   Widget build(BuildContext context) {
@@ -424,10 +419,7 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
           child: CircleAvatar(
             backgroundColor: Colors.white.withValues(alpha: 0.92),
             child: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: darkColor,
-              ),
+              icon: const Icon(Icons.arrow_back, color: darkColor),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -491,21 +483,14 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
           top: 48,
           right: 18,
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 9,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.92),
               borderRadius: BorderRadius.circular(18),
             ),
             child: Row(
               children: [
-                const Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 17,
-                ),
+                const Icon(Icons.star, color: Colors.amber, size: 17),
                 const SizedBox(width: 5),
                 StreamBuilder<QuerySnapshot>(
                   stream: reviewsStream,
@@ -626,11 +611,7 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
                   color: primaryColor.withValues(alpha: 0.13),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Icon(
-                  categoryIcon,
-                  color: primaryColor,
-                  size: 27,
-                ),
+                child: Icon(categoryIcon, color: primaryColor, size: 27),
               ),
 
               const SizedBox(width: 14),
@@ -654,10 +635,7 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
                       widget.isCommunitySubmission
                           ? "Community submitted gem"
                           : "Featured hidden gem",
-                      style: const TextStyle(
-                        color: textGrey,
-                        fontSize: 12,
-                      ),
+                      style: const TextStyle(color: textGrey, fontSize: 12),
                     ),
                   ],
                 ),
@@ -674,11 +652,7 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
                 ),
                 child: Row(
                   children: [
-                    const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 16,
-                    ),
+                    const Icon(Icons.star, color: Colors.amber, size: 16),
                     const SizedBox(width: 4),
                     StreamBuilder<QuerySnapshot>(
                       stream: reviewsStream,
@@ -703,19 +677,13 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
 
           const SizedBox(height: 16),
 
-          Container(
-            height: 1,
-            color: const Color(0xFFE8E4D8),
-          ),
+          Container(height: 1, color: const Color(0xFFE8E4D8)),
 
           const SizedBox(height: 16),
 
           Row(
             children: [
-              _buildInfoPill(
-                icon: Icons.explore_outlined,
-                label: "Local Pick",
-              ),
+              _buildInfoPill(icon: Icons.explore_outlined, label: "Local Pick"),
               const SizedBox(width: 10),
               _buildInfoPill(
                 icon: Icons.camera_alt_outlined,
@@ -728,31 +696,19 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
     );
   }
 
-  Widget _buildInfoPill({
-    required IconData icon,
-    required String label,
-  }) {
+  Widget _buildInfoPill({required IconData icon, required String label}) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 10,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFFE8E4D8),
-          ),
+          border: Border.all(color: const Color(0xFFE8E4D8)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              color: primaryColor,
-              size: 17,
-            ),
+            Icon(icon, color: primaryColor, size: 17),
             const SizedBox(width: 6),
             Text(
               label,
@@ -788,11 +744,7 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
         children: [
           const Row(
             children: [
-              Icon(
-                Icons.notes_outlined,
-                color: Colors.white,
-                size: 20,
-              ),
+              Icon(Icons.notes_outlined, color: Colors.white, size: 20),
               SizedBox(width: 8),
               Text(
                 "About this place",
@@ -839,40 +791,32 @@ if (widget.isCommunitySubmission && currentUploaderRating > 0) {
 
             const Spacer(),
 
-            if (widget.isCommunitySubmission)
-  TextButton.icon(
-    onPressed: showEditUploaderRatingDialog,
-    icon: const Icon(
-      Icons.edit,
-      size: 16,
-      color: primaryColor,
-    ),
-    label: const Text(
-      "Edit rating",
-      style: TextStyle(
-        color: primaryColor,
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-  )
-else
-  TextButton.icon(
-    onPressed: openWriteReviewPage,
-    icon: const Icon(
-      Icons.edit,
-      size: 16,
-      color: primaryColor,
-    ),
-    label: const Text(
-      "Write a review",
-      style: TextStyle(
-        color: primaryColor,
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-  ),
+            if (widget.isUserSubmission)
+              TextButton.icon(
+                onPressed: showEditUploaderRatingDialog,
+                icon: const Icon(Icons.edit, size: 16, color: primaryColor),
+                label: const Text(
+                  "Edit rating",
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            else
+              TextButton.icon(
+                onPressed: openWriteReviewPage,
+                icon: const Icon(Icons.edit, size: 16, color: primaryColor),
+                label: const Text(
+                  "Write a review",
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
           ],
         ),
 
@@ -891,9 +835,7 @@ else
               return const Center(
                 child: Padding(
                   padding: EdgeInsets.all(18),
-                  child: CircularProgressIndicator(
-                    color: primaryColor,
-                  ),
+                  child: CircularProgressIndicator(color: primaryColor),
                 ),
               );
             }
@@ -901,7 +843,7 @@ else
             final reviews = snapshot.data!.docs;
 
             final bool hasInitialCommunityRating =
-    widget.isCommunitySubmission && currentUploaderRating > 0;
+    widget.isUserSubmission && currentUploaderRating > 0;
 
             if (reviews.isEmpty && !hasInitialCommunityRating) {
               return _buildReviewEmptyState(
@@ -912,22 +854,22 @@ else
             return Column(
               children: [
                 if (hasInitialCommunityRating)
-ReviewCard(
-  reviewerName: "You",
-  rating: currentUploaderRating.round(),
-  review: "Your rating for this hidden gem",
-  time: "Initial rating",
-),
+                  ReviewCard(
+                    reviewerName: "You",
+                    rating: currentUploaderRating.round(),
+                    review: "Your rating for this hidden gem",
+                    time: "Initial rating",
+                  ),
 
                 ...reviews.map((doc) {
                   final data = doc.data() as Map<String, dynamic>;
 
-                 return ReviewCard(
-  reviewerName: data["reviewerName"] ?? "Traveller",
-  rating: data["rating"] ?? 0,
-  review: data["review"] ?? "",
-  time: formatReviewDate(data["createdAt"]),
-);
+                  return ReviewCard(
+                    reviewerName: data["reviewerName"] ?? "Traveller",
+                    rating: data["rating"] ?? 0,
+                    review: data["review"] ?? "",
+                    time: formatReviewDate(data["createdAt"]),
+                  );
                 }),
               ],
             );
@@ -944,9 +886,7 @@ ReviewCard(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(
-          color: const Color(0xFFE8E4D8),
-        ),
+        border: Border.all(color: const Color(0xFFE8E4D8)),
       ),
       child: Row(
         children: [
@@ -957,10 +897,7 @@ ReviewCard(
               color: primaryColor.withValues(alpha: 0.12),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.rate_review_outlined,
-              color: primaryColor,
-            ),
+            child: const Icon(Icons.rate_review_outlined, color: primaryColor),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -1005,9 +942,7 @@ class ReviewCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(
-          color: const Color(0xFFE8E4D8),
-        ),
+        border: Border.all(color: const Color(0xFFE8E4D8)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -1028,9 +963,7 @@ class ReviewCard extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                reviewerName.isNotEmpty
-                    ? reviewerName[0].toUpperCase()
-                    : "T",
+                reviewerName.isNotEmpty ? reviewerName[0].toUpperCase() : "T",
                 style: const TextStyle(
                   color: darkColor,
                   fontSize: 20,

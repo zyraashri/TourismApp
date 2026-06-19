@@ -149,7 +149,11 @@ class SmartCompanionProvider extends ChangeNotifier {
 
     await getCurrentLocation();
     await loadWeather();
-    //await loadGeminiGeneratedContent();
+
+    debugPrint("Before calling Gemini recommendations");
+    await loadGeminiGeneratedContent();
+    debugPrint("After calling Gemini recommendations");
+
     await updateGeneratedImages();
 
     isLoading = false;
@@ -225,6 +229,8 @@ class SmartCompanionProvider extends ChangeNotifier {
   }
 
   Future<void> loadGeminiGeneratedContent() async {
+    debugPrint("loadGeminiGeneratedContent started");
+
     try {
       final apiKey = dotenv.env['GEMINI_API_KEY'];
       if (apiKey == null || apiKey.isEmpty) return;
@@ -274,11 +280,24 @@ Return ONLY valid JSON:
         }),
       );
 
+      debugPrint("Gemini recommendation API called");
+      debugPrint("Gemini Status: ${response.statusCode}");
+      debugPrint("Gemini Body: ${response.body}");
+
+      debugPrint("LIVE LOCATION USED: $currentLocationName");
+      debugPrint("LAT LNG USED: $currentLatitude, $currentLongitude");
+      debugPrint("WEATHER USED: $temperature, $weatherCondition");
+      debugPrint("GEMINI STATUS: ${response.statusCode}");
+      debugPrint("GEMINI BODY: ${response.body}");
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final text = data['candidates']?[0]?['content']?['parts']?[0]?['text'];
 
         if (text != null) {
+          debugPrint("GEMINI GENERATED TEXT:");
+          debugPrint(text.toString());
+
           _applyGeminiJson(text.toString());
         }
       }

@@ -31,31 +31,45 @@ class HomeDashboardProvider extends ChangeNotifier {
 
       reviewsShared = hiddenGemsSnapshot.docs.length;
 
-      final snapshot = await FirebaseFirestore.instance
+      final tripsSnapshot = await FirebaseFirestore.instance
           .collection('trips')
+          .limit(1)
           .get();
 
-      for (var doc in snapshot.docs) {
+      debugPrint("Trips docs count: ${tripsSnapshot.docs.length}");
+
+      if (tripsSnapshot.docs.isNotEmpty) {
+        final doc = tripsSnapshot.docs.first;
         final data = doc.data();
 
-        if (data.containsKey('title')) {
-          upcomingTripTitle = data['title'];
+        debugPrint("Trip document ID: ${doc.id}");
+        debugPrint("Trip data: $data");
+
+        final destination = data['destination']?.toString() ?? "Melaka";
+
+        upcomingTripTitle =
+            "${destination[0].toUpperCase()}${destination.substring(1)} Trip";
+
+        if (data['attractions'] is List) {
+          final attractions = data['attractions'] as List;
+          upcomingTripDestination =
+              "${attractions.length} Destinations Planned";
+        } else {
+          upcomingTripDestination = "$destination Destination";
         }
 
-        if (data.containsKey('destination')) {
-          upcomingTripDestination = data['destination'];
+        final startDateData = data['startDate'];
+
+        if (startDateData is Timestamp) {
+          upcomingTripDate = startDateData.toDate();
+        } else if (startDateData is String) {
+          upcomingTripDate = DateTime.parse(startDateData);
         }
 
-        if (data.containsKey('startDate')) {
-          final startDateData = data['startDate'];
-
-          if (startDateData is Timestamp) {
-            upcomingTripDate = startDateData.toDate();
-          }
-        }
+        tripsPlanned = tripsSnapshot.docs.length;
+      } else {
+        debugPrint("No trips document found in Firestore.");
       }
-
-      tripsPlanned = 1;
 
       notifyListeners();
     } catch (e) {

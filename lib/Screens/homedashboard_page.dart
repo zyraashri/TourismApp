@@ -84,23 +84,6 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                             GoogleMap(
                               onMapCreated: (controller) {
                                 _mapController = controller;
-
-                                Future.delayed(
-                                  const Duration(milliseconds: 500),
-                                  () {
-                                    _mapController?.animateCamera(
-                                      CameraUpdate.newCameraPosition(
-                                        CameraPosition(
-                                          target: LatLng(
-                                            home.currentLatitude,
-                                            home.currentLongitude,
-                                          ),
-                                          zoom: 15,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
                               },
                               initialCameraPosition: CameraPosition(
                                 target: LatLng(
@@ -110,7 +93,22 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                                 zoom: 15,
                               ),
                               myLocationEnabled: true,
-                              myLocationButtonEnabled: true,
+                              myLocationButtonEnabled: false,
+                              zoomControlsEnabled: false,
+                              compassEnabled: false,
+                              mapToolbarEnabled: false,
+
+                              scrollGesturesEnabled: true,
+                              zoomGesturesEnabled: true,
+                              rotateGesturesEnabled: true,
+                              tiltGesturesEnabled: true,
+
+                              gestureRecognizers: {
+                                Factory<OneSequenceGestureRecognizer>(
+                                  () => EagerGestureRecognizer(),
+                                ),
+                              },
+
                               markers: {
                                 Marker(
                                   markerId: const MarkerId('currentLocation'),
@@ -124,6 +122,7 @@ class _HomeDashboardPageState extends State<HomeDashboardPage> {
                                 ),
                               },
                             ),
+
                             Positioned(
                               right: 6,
                               top: 6,
